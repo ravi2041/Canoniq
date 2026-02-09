@@ -1,0 +1,191 @@
+Here’s a list of complex / hallucination-prone queries tailored for your schema and rules:
+
+
+Give me revenue, orders, and conversion rate by channel for the last 90 days, compared to the previous 90 days.
+
+shopify questions
+
+Sales & Orders
+
+“Show me total sales by day for the last 30 days.”
+
+“Which products generated the highest revenue this month?”
+
+“How many new customers did we acquire this month?”
+
+“Show repeat purchase rate by month.”
+
+“Who are our most loyal customers?”
+
+“What percentage of customers placed only one order?”
+
+“Which products are running low on stock?”
+
+“Show inventory turnover rate for each product category.”
+
+“Compare total stock quantity vs total sold units this month.”
+
+“Which products have zero sales but available inventory?”
+
+Sessions, Traffic & Conversion
+
+“Show total website sessions and conversion rate by source.”
+
+“Which landing pages drive the most purchases?”
+
+“Show add-to-cart rate by traffic channel.”
+
+“Compare conversion funnel from sessions → checkout → purchase.”
+
+
+
+GA4 questions
+
+Acquisition & ROAS
+
+“Over the last 30 days, which default channel groups drove the highest ROAS and what were the ad costs and revenue behind it?”
+
+WORKING QUERY - “Compare ROAS by sessionCampaignName and sessionSourceMedium for the last 4 weeks—highlight the top 5 and bottom 5.”
+
+This is marketing query - “Which campaigns have high engagement rate but low conversions this month, and what’s their spend?”
+
+WORKING QUERY -  “Trend sessions, engaged sessions, conversions, advertiser ad cost, and ROAS by day for the last 14 days.”
+
+Landing pages
+
+WORKING QUERY - “Which landing pages (LP+QS) generated the most engaged sessions and revenue this month, broken down by source/medium?”
+
+“Show the top 10 landing pages by conversions with their average session duration and screen page views in the past 30 days.”
+
+Product & item performance
+
+“What are the top 10 items by revenue this year, including itemsPurchased and addToCarts?”
+
+“Which item variants have high add-to-cart but low purchases (cart-to-view and purchase-to-view rates) in the last 30 days?”
+
+“For each item category, show revenue, purchases, and average purchase revenue week-over-week for the past 8 weeks.”
+
+Funnel & checkout
+
+“What is our add-to-cart → checkout → purchase funnel by sessionCampaignName for the last 30 days?”
+
+“How many abandoned checkouts did we have this month, what’s the potential subtotal/total at risk, and how many were later completed?”
+
+Discounts & promotions
+
+“Which discount codes generated the most revenue in the last 60 days, and what’s their average value and allocation method?”
+
+“For orders influenced by discounts, break down revenue and order counts by application type (manual, automatic, script) over the last 30 days.”
+
+Attribution (first/last touch)
+
+“By last_utm_source / last_utm_medium / last_utm_campaign, show orders, revenue, and average days_to_conv for the last 90 days.”
+
+“Compare first-touch vs last-touch campaign performance (orders, revenue) for the past 60 days—where do we see the biggest shift?”
+
+Customers & fulfillment
+
+“Segment customers by number of orders (1, 2–3, 4+) and show total amount spent and average order value—lifetime to date.”
+
+“What share of orders were fulfilled on time in the last 30 days? Show counts by fulfillment_status and average time from order_date to estimated_delivery_date.”
+
+Subscriptions (if applicable)
+
+“List subscription attempts for the past 30 days by status with amounts—highlight top error codes and messages.”
+
+
+
+
+
+
+
+
+
+
+
+
+demo questions
+
+
+show me the performance of the facebook campaigns, placements, creatives. Include all metrics for the performance. for year 2025
+show me the performance of the campaign = "DT300 MOBILE APPLE APPLE NPI EXTENSION". Across all platforms and include all metrics. for year 2025
+show me performance of campaigns, placements and creatives across all platforms. Use any metrics you think is best to compare campaigns. for year 2025
+
+Show me the performance of the campaigns for the year 2025. Sort campaign performance from high to low. Choose metrics you think is important for analysis.
+Show me top performing campaigns for the year 2025. Sort the results based on impressions from high to low. Use metrics you think
+Questions
+
+Show me how facebook campaigns performed in year 2025. Compare the result with other platforms and see if we can find similar campaigns and measure their performance across platforms. Use all metrics possible and conversions data as well.
+what are the least performing campaigns for year 2025. List out reasons why it was least performing.
+what are the least performing campaigns and their placement and creatives for year 2025. List out reasons why it was least performing.
+give me top performing campaigns for last 6 months. Choose metric which you think is important. Try to add all metrics for comparison.
+compare campaign performance across all platforms. Include metrics that you think is useful for comparison.
+show top performing campaigns across different platforms  by clicks, cost, impressions
+
+1. Cross-Platform Ambiguity
+
+These can cause hallucination because joins between platform tables are not recommended, but the user phrasing implies a merge:
+
+“Show me the top performing placements across Facebook, TikTok, YouTube, and CM360 combined by CTR last 3 month.”
+
+“Compare conversion rates for all campaigns across platforms and give me one leaderboard.”
+
+“What is the overall ROI of my campaigns across all platforms in 2024?”  (needs cost+conversion, but conversions only exist in CM360 table).
+
+2. Metric–Dimension Mismatch
+
+Mixing engagement metrics with conversions can confuse the agent:
+
+“Give me total impressions and conversions by creative across all platforms.”
+
+“Which advertiser had the lowest cost per conversion across TikTok?” (TikTok has no conversion column).
+
+“What is the ratio of video_75 to conversions across placements?” (conversion data is separate).
+
+3. Fuzzy / Non-Exact Column Usage
+
+Where the user might say a concept that doesn’t match schema columns:
+
+“Show me results by device type across Facebook.” (Facebook table has device? → actually missing in your FB schema; only in cm360_conversion_data).
+
+“Break down performance by product category.” (Only primary_category and sub_category1 exist, not a generic “category”).
+
+“What was the reach of my YouTube campaigns?” (YouTube table has impressions, not reach).
+
+4. Temporal Complexity
+
+Where time granularity or filtering creates ambiguity:
+
+“Show me the trend of conversions for Q1 2025 across all sites and platforms, compared year-over-year.”
+
+“Give me daily spend and monthly conversion rate by advertiser.” (requires mixing daily and monthly aggregation).
+
+“What is the cumulative click-through-rate for 2024 so far?” (CTR not explicitly stored; needs derived metric).
+
+5. Derived Metrics Not Explicitly Stored
+
+LLM might hallucinate formulas:
+
+“What is the cost per engagement by campaign across platforms?” (cost / post_engagement not stored).
+
+“What’s the ROI for TikTok campaigns?” (TikTok has cost, no revenue/ROI field).
+
+“What’s the average watch time across my YouTube videos?” (schema has video_25, video_50, video_75, video_100 but not watch time).
+
+6. Relationship Confusion
+
+Risk of hallucination because relationships are many-to-many and noisy:
+
+“Give me all creatives that performed best across site IDs.” (Agent may try invalid joins).
+
+“Which campaign_id has the highest conversions and engagement combined?” (Requires separate aggregation before merging).
+
+“Map all placements across platforms to one report.” (Placements don’t align 1:1 across tables).
+
+7. Guideline Violations
+
+Queries that tempt the model to break your rules:
+
+“Join campaign names between Facebook and CM360 and show me the merged performance.” (Guidelines say don’t join on campaign names).
+
+“Directly join all platform tables by creative_id and show one combined report.” (should be union of summaries, not join).

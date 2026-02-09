@@ -1,0 +1,213 @@
+/* ============================================================
+   GLOBAL APP BACKGROUND + FONT COLOR
+   ============================================================ */
+
+html, body, .stApp {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: #f1f5f9 !important;  /* main text */
+}
+
+/* The main container */
+.block-container {
+    background-color: #1e293b;  /* slate-800 */
+    color: #f1f5f9 !important;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+/* ============================================================
+   GENERAL TEXT OVERRIDE (MOST IMPORTANT PART)
+   ============================================================ */
+
+* {
+    color: #f1f5f9 !important;   /* Force white text */
+}
+
+p, span, label, h1, h2, h3, h4, h5, h6, div {
+    color: #f1f5f9 !important;
+}
+
+/* ============================================================
+   INPUT WIDGETS (TEXTBOX, SELECTBOX, MULTISELECT, DATE INPUT)
+   ============================================================ */
+
+.stTextInput > div > div > input,
+.stDateInput > div > input,
+.stNumberInput > div > input {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+    border: 1px solid #334155 !important;
+}
+
+.stSelectbox > div > div {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+.stMultiSelect > div {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+}
+
+/* Dropdown menus */
+.stMultiSelect ul,
+.stSelectbox ul {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+    border: 1px solid #334155 !important;
+}
+
+/* ============================================================
+   RADIO BUTTONS + CHECKBOXES
+   ============================================================ */
+
+.stRadio label,
+.stCheckbox label {
+    color: #f1f5f9 !important;
+}
+
+/* ============================================================
+   EXPANDERS
+   ============================================================ */
+
+div[data-testid="stExpander"] > details {
+    background-color: #0f172a !important;
+    border-radius: 10px;
+    border: 1px solid #475569;
+}
+
+summary {
+    color: #f1f5f9 !important;
+}
+
+/* ============================================================
+   SIDEBAR (NAVIGATION)
+   ============================================================ */
+
+section[data-testid="stSidebar"] {
+    background-color: #020617 !important;  /* similar to Tailwind 'slate-950' */
+    color: #f1f5f9 !important;
+    border-right: 1px solid #0a0f1d !important;
+}
+
+section[data-testid="stSidebar"] * {
+    color: #f1f5f9 !important;
+}
+
+/* ============================================================
+   RIGHT FILTER PANEL (slightly lighter than app background)
+   ============================================================ */
+
+div[data-testid="stVerticalBlock"] > div[data-testid="stVerticalBlock"] {
+    background-color: #111827 !important; /* slate-900 */
+    border-radius: 10px;
+    padding: 0.75rem;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.stButton button {
+    background-color: #334155 !important; /* slate-600 */
+    color: #f1f5f9 !important;
+    border-radius: 6px;
+    border: 1px solid #475569;
+}
+
+.stButton button:hover {
+    background-color: #475569 !important;
+}
+
+/* ============================================================
+   METRIC CARDS
+   ============================================================ */
+
+.stMetric {
+    color: #f1f5f9 !important;
+}
+
+.stMetric label, .stMetric div {
+    color: #f1f5f9 !important;
+}
+
+/* ============================================================
+   DATAFRAME (AGGRID-LIKE TABLE)
+   ============================================================ */
+
+.css-1q8dd3e, .css-1n76uvr, .stDataFrame, .dataframe {
+    background-color: #1e293b !important;
+    color: #f1f5f9 !important;
+}
+
+.dataframe th, .dataframe td {
+    background-color: #1e293b !important;
+    color: #f1f5f9 !important;
+}
+
+/* ============================================================
+   PLOTLY CHARTS (DARK MODE)
+   ============================================================ */
+
+.js-plotly-plot .plotly,
+.js-plotly-plot .main-svg {
+    background-color: #1e293b !important;
+    color: #f8fafc !important;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+footer:after {
+    content:'© 2025 Clarity AI Dashboard';
+    display:block;
+    position:fixed;
+    bottom:0;
+    width:100%;
+    text-align:center;
+    color:#94a3b8;
+    padding:10px;
+    background: #0f172a;
+    font-size:12px;
+}
+
+/* ============================================================
+   FIX WHITE STRIP AT TOP OF CONTENT
+   ============================================================ */
+
+/* Main view background (center area, not sidebar) */
+div[data-testid="stAppViewContainer"] {
+    background: linear-gradient(135deg, #0f172a 0%, #020617 100%) !important;
+}
+
+/* Inner content block (the area where your header + columns live) */
+div[data-testid="stAppViewContainer"] .block-container {
+    background-color: #0f172a !important;
+    color: #f1f5f9 !important;
+    border-radius: 0;              /* optional – remove if you like rounded top */
+    box-shadow: none;              /* optional – remove if you want the shadow */
+    padding-top: 1.0rem;           /* keeps a bit of breathing room at top */
+}
+
+/* Streamlit top app bar (where the 3-dots / Deploy live) */
+header[data-testid="stHeader"] {
+    background-color: #020617 !important;
+    color: #f1f5f9 !important;
+    border-bottom: 1px solid #020617;
+}
+
+header[data-testid="stHeader"] * {
+    color: #f1f5f9 !important;
+}
+
+header[data-testid="stHeader"] {
+    background-color: #0f172a !important;
+    color: #f8fafc !important;
+    border-bottom: 1px solid #1e293b !important;
+}
+
+header[data-testid="stHeader"] * {
+    color: #f8fafc !important;
+}

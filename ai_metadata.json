@@ -1,0 +1,1273 @@
+{
+  "generated_at": "2025-11-10T22:41:36.150256",
+  "database": "marketing",
+  "tables": [
+    {
+      "name": "agent_memory",
+      "platform": "Internal",
+      "type": "dimension",
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "int",
+          "role": "primary_key",
+          "semantic_type": "surrogate_key",
+          "synonyms": [
+            "memory_id"
+          ]
+        },
+        {
+          "name": "user_id",
+          "data_type": "varchar(50)",
+          "role": "user_identifier",
+          "semantic_type": "dimension",
+          "synonyms": [
+            "user_identifier"
+          ]
+        },
+        {
+          "name": "question",
+          "data_type": "text",
+          "role": "query_text",
+          "semantic_type": "attribute",
+          "synonyms": []
+        },
+        {
+          "name": "sql_code",
+          "data_type": "text",
+          "role": "stored_sql",
+          "semantic_type": "attribute",
+          "synonyms": [
+            "query_sql"
+          ]
+        },
+        {
+          "name": "keywords",
+          "data_type": "text",
+          "role": "keywords",
+          "semantic_type": "attribute",
+          "synonyms": []
+        },
+        {
+          "name": "embedding",
+          "data_type": "blob",
+          "role": "vector_embedding",
+          "semantic_type": "attribute",
+          "synonyms": []
+        },
+        {
+          "name": "question_hash",
+          "data_type": "varchar(64)",
+          "role": "hash_key",
+          "semantic_type": "attribute",
+          "synonyms": []
+        },
+        {
+          "name": "narrative",
+          "data_type": "text",
+          "role": "narrative",
+          "semantic_type": "attribute",
+          "synonyms": []
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "role": "timestamp_created",
+          "semantic_type": "time",
+          "synonyms": [
+            "creation_time"
+          ]
+        },
+        {
+          "name": "updated_at",
+          "data_type": "timestamp",
+          "role": "timestamp_updated",
+          "semantic_type": "time",
+          "synonyms": [
+            "modification_time"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "query_results",
+      "platform": "Internal",
+      "type": "dimension",
+      "primary_key": [
+        "id"
+      ],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "id",
+          "data_type": "int",
+          "role": "primary_key",
+          "semantic_type": "surrogate_key",
+          "synonyms": []
+        },
+        {
+          "name": "question_hash",
+          "data_type": "varchar(64)",
+          "role": "hash_key",
+          "semantic_type": "attribute",
+          "synonyms": []
+        },
+        {
+          "name": "question_text",
+          "data_type": "text",
+          "role": "query_text",
+          "semantic_type": "attribute",
+          "synonyms": []
+        },
+        {
+          "name": "output_json",
+          "data_type": "longtext",
+          "role": "result_payload",
+          "semantic_type": "attribute",
+          "synonyms": [
+            "result_json",
+            "result_output"
+          ]
+        },
+        {
+          "name": "created_at",
+          "data_type": "timestamp",
+          "role": "timestamp_created",
+          "semantic_type": "time",
+          "synonyms": [
+            "creation_time"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cm360_conversion_data",
+      "platform": "CM360",
+      "type": "fact",
+      "primary_key": [],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "date",
+          "data_type": "date",
+          "role": "time",
+          "semantic_type": "time",
+          "synonyms": [
+            "record_date"
+          ]
+        },
+        {
+          "name": "advertiser",
+          "data_type": "varchar(255)",
+          "role": "dimension",
+          "semantic_type": "advertiser",
+          "synonyms": [
+            "account_name"
+          ]
+        },
+        {
+          "name": "product",
+          "data_type": "varchar(255)",
+          "role": "dimension",
+          "semantic_type": "product",
+          "synonyms": [
+            "product_category"
+          ]
+        },
+        {
+          "name": "campaign_id",
+          "data_type": "varchar(100)",
+          "role": "dimension",
+          "semantic_type": "campaign_identifier",
+          "synonyms": [
+            "camp_id"
+          ]
+        },
+        {
+          "name": "campaign",
+          "data_type": "varchar(255)",
+          "role": "dimension",
+          "semantic_type": "campaign_name",
+          "synonyms": [
+            "campaign_title"
+          ]
+        },
+        {
+          "name": "campaign_year",
+          "data_type": "int",
+          "role": "attribute",
+          "semantic_type": "time",
+          "synonyms": [
+            "year"
+          ]
+        },
+        {
+          "name": "site_id",
+          "data_type": "varchar(100)",
+          "role": "dimension",
+          "semantic_type": "site_identifier",
+          "synonyms": [
+            "publisher_id"
+          ]
+        },
+        {
+          "name": "site",
+          "data_type": "varchar(255)",
+          "role": "dimension",
+          "semantic_type": "site_name",
+          "synonyms": [
+            "publisher"
+          ]
+        },
+        {
+          "name": "placement_id",
+          "data_type": "varchar(100)",
+          "role": "dimension",
+          "semantic_type": "placement_identifier",
+          "synonyms": [
+            "placement_key"
+          ]
+        },
+        {
+          "name": "placement",
+          "data_type": "varchar(255)",
+          "role": "dimension",
+          "semantic_type": "placement_name",
+          "synonyms": []
+        },
+        {
+          "name": "creative_id",
+          "data_type": "varchar(100)",
+          "role": "dimension",
+          "semantic_type": "creative_identifier",
+          "synonyms": [
+            "ad_id"
+          ]
+        },
+        {
+          "name": "creative",
+          "data_type": "varchar(255)",
+          "role": "dimension",
+          "semantic_type": "creative_name",
+          "synonyms": []
+        },
+        {
+          "name": "activity_id",
+          "data_type": "varchar(100)",
+          "role": "dimension",
+          "semantic_type": "conversion_activity_id",
+          "synonyms": []
+        },
+        {
+          "name": "activity",
+          "data_type": "varchar(255)",
+          "role": "dimension",
+          "semantic_type": "conversion_activity",
+          "synonyms": []
+        },
+        {
+          "name": "primary_category",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "category_primary",
+          "synonyms": []
+        },
+        {
+          "name": "sub_category1",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "category_secondary",
+          "synonyms": []
+        },
+        {
+          "name": "monthly_itematgname",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "monthly_package",
+          "synonyms": [
+            "monthly_package_name"
+          ]
+        },
+        {
+          "name": "phone_itematgname",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "product_variant",
+          "synonyms": []
+        },
+        {
+          "name": "business_group",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "organizational_unit",
+          "synonyms": []
+        },
+        {
+          "name": "product_parameter",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "product_parameter",
+          "synonyms": [
+            "param"
+          ]
+        },
+        {
+          "name": "technology",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "technology",
+          "synonyms": []
+        },
+        {
+          "name": "product_type",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "product_type",
+          "synonyms": []
+        },
+        {
+          "name": "power_type",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "power_type",
+          "synonyms": []
+        },
+        {
+          "name": "product_brand",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "brand",
+          "synonyms": []
+        },
+        {
+          "name": "device",
+          "data_type": "varchar(255)",
+          "role": "attribute",
+          "semantic_type": "device_type",
+          "synonyms": []
+        },
+        {
+          "name": "total_conversions",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "conversions",
+          "synonyms": [
+            "conversion_count"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cm360_data",
+      "platform": "CM360",
+      "type": "fact",
+      "primary_key": [],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "date",
+          "data_type": "datetime",
+          "role": "time",
+          "semantic_type": "time",
+          "synonyms": [
+            "event_timestamp"
+          ]
+        },
+        {
+          "name": "advertiser",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "advertiser",
+          "synonyms": [
+            "account_name"
+          ]
+        },
+        {
+          "name": "product",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "product",
+          "synonyms": []
+        },
+        {
+          "name": "campaign_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "campaign_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "campaign",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "campaign_name",
+          "synonyms": []
+        },
+        {
+          "name": "campaign_year",
+          "data_type": "text",
+          "role": "attribute",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "site_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "site_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "site",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "site_name",
+          "synonyms": []
+        },
+        {
+          "name": "placement_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "placement_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "placement",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "placement_name",
+          "synonyms": []
+        },
+        {
+          "name": "creative_id",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "creative_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "creative",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "creative_name",
+          "synonyms": []
+        },
+        {
+          "name": "impressions",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "impressions",
+          "synonyms": []
+        },
+        {
+          "name": "clicks",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "clicks",
+          "synonyms": []
+        },
+        {
+          "name": "cost",
+          "data_type": "double",
+          "role": "metric",
+          "semantic_type": "cost",
+          "synonyms": []
+        },
+        {
+          "name": "video_25",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_25",
+          "synonyms": []
+        },
+        {
+          "name": "video_50",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_50",
+          "synonyms": []
+        },
+        {
+          "name": "video_75",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_75",
+          "synonyms": []
+        },
+        {
+          "name": "video_100",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_100",
+          "synonyms": []
+        },
+        {
+          "name": "viewable_impression",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "viewable_impressions",
+          "synonyms": []
+        },
+        {
+          "name": "post_reaction",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "reactions",
+          "synonyms": []
+        },
+        {
+          "name": "post_engagement",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "engagements",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "name": "facebook_data",
+      "platform": "Facebook Ads",
+      "type": "fact",
+      "primary_key": [],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "date",
+          "data_type": "datetime",
+          "role": "time",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "advertiser",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "advertiser",
+          "synonyms": []
+        },
+        {
+          "name": "product",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "product",
+          "synonyms": []
+        },
+        {
+          "name": "campaign_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "campaign_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "campaign",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "campaign_name",
+          "synonyms": []
+        },
+        {
+          "name": "campaign_year",
+          "data_type": "double",
+          "role": "attribute",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "site_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "site_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "site",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "site_name",
+          "synonyms": []
+        },
+        {
+          "name": "placement_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "placement_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "placement",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "placement_name",
+          "synonyms": []
+        },
+        {
+          "name": "creative_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "creative_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "creative",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "creative_name",
+          "synonyms": []
+        },
+        {
+          "name": "impressions",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "impressions",
+          "synonyms": []
+        },
+        {
+          "name": "clicks",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "clicks",
+          "synonyms": []
+        },
+        {
+          "name": "cost",
+          "data_type": "double",
+          "role": "metric",
+          "semantic_type": "cost",
+          "synonyms": []
+        },
+        {
+          "name": "video_25",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_25",
+          "synonyms": []
+        },
+        {
+          "name": "video_50",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_50",
+          "synonyms": []
+        },
+        {
+          "name": "video_75",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_75",
+          "synonyms": []
+        },
+        {
+          "name": "video_100",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_100",
+          "synonyms": []
+        },
+        {
+          "name": "viewable_impression",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "viewable_impressions",
+          "synonyms": []
+        },
+        {
+          "name": "post_reaction",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "reactions",
+          "synonyms": []
+        },
+        {
+          "name": "post_engagement",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "engagements",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "name": "tiktok_data",
+      "platform": "TikTok Ads",
+      "type": "fact",
+      "primary_key": [],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "date",
+          "data_type": "datetime",
+          "role": "time",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "advertiser",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "advertiser",
+          "synonyms": []
+        },
+        {
+          "name": "product",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "product",
+          "synonyms": []
+        },
+        {
+          "name": "campaign_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "campaign_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "campaign",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "campaign_name",
+          "synonyms": []
+        },
+        {
+          "name": "campaign_year",
+          "data_type": "double",
+          "role": "attribute",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "site_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "site_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "site",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "site_name",
+          "synonyms": []
+        },
+        {
+          "name": "placement_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "placement_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "placement",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "placement_name",
+          "synonyms": []
+        },
+        {
+          "name": "creative_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "creative_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "creative",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "creative_name",
+          "synonyms": []
+        },
+        {
+          "name": "impressions",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "impressions",
+          "synonyms": []
+        },
+        {
+          "name": "clicks",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "clicks",
+          "synonyms": []
+        },
+        {
+          "name": "cost",
+          "data_type": "double",
+          "role": "metric",
+          "semantic_type": "cost",
+          "synonyms": []
+        },
+        {
+          "name": "video_25",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_25",
+          "synonyms": []
+        },
+        {
+          "name": "video_50",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_50",
+          "synonyms": []
+        },
+        {
+          "name": "video_75",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_75",
+          "synonyms": []
+        },
+        {
+          "name": "video_100",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_100",
+          "synonyms": []
+        },
+        {
+          "name": "viewable_impression",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "viewable_impressions",
+          "synonyms": []
+        },
+        {
+          "name": "post_reaction",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "reactions",
+          "synonyms": []
+        },
+        {
+          "name": "post_engagement",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "engagements",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "name": "youtube_data",
+      "platform": "YouTube Ads",
+      "type": "fact",
+      "primary_key": [],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "date",
+          "data_type": "datetime",
+          "role": "time",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "advertiser",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "advertiser",
+          "synonyms": []
+        },
+        {
+          "name": "product",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "product",
+          "synonyms": []
+        },
+        {
+          "name": "campaign_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "campaign_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "campaign",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "campaign_name",
+          "synonyms": []
+        },
+        {
+          "name": "campaign_year",
+          "data_type": "bigint",
+          "role": "attribute",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "site_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "site_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "site",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "site_name",
+          "synonyms": []
+        },
+        {
+          "name": "placement_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "placement_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "placement",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "placement_name",
+          "synonyms": []
+        },
+        {
+          "name": "creative_id",
+          "data_type": "bigint",
+          "role": "dimension",
+          "semantic_type": "creative_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "creative",
+          "data_type": "text",
+          "role": "dimension",
+          "semantic_type": "creative_name",
+          "synonyms": []
+        },
+        {
+          "name": "impressions",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "impressions",
+          "synonyms": []
+        },
+        {
+          "name": "clicks",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "clicks",
+          "synonyms": []
+        },
+        {
+          "name": "cost",
+          "data_type": "double",
+          "role": "metric",
+          "semantic_type": "cost",
+          "synonyms": []
+        },
+        {
+          "name": "video_25",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_25",
+          "synonyms": []
+        },
+        {
+          "name": "video_50",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_50",
+          "synonyms": []
+        },
+        {
+          "name": "video_75",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_75",
+          "synonyms": []
+        },
+        {
+          "name": "video_100",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "video_view_100",
+          "synonyms": []
+        },
+        {
+          "name": "viewable_impression",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "viewable_impressions",
+          "synonyms": []
+        },
+        {
+          "name": "post_reaction",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "reactions",
+          "synonyms": []
+        },
+        {
+          "name": "post_engagement",
+          "data_type": "bigint",
+          "role": "metric",
+          "semantic_type": "engagements",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "name": "ga4_acquisition_channel_daily",
+      "platform": "GA4",
+      "type": "fact",
+      "primary_key": [
+        "date",
+        "sessionDefaultChannelGroup"
+      ],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "date",
+          "data_type": "date",
+          "role": "time",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "sessionDefaultChannelGroup",
+          "data_type": "varchar(191)",
+          "role": "dimension",
+          "semantic_type": "acquisition_channel",
+          "synonyms": [
+            "session_channel",
+            "channel"
+          ]
+        },
+        {
+          "name": "sessions",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "sessions",
+          "synonyms": []
+        },
+        {
+          "name": "activeUsers",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "active_users",
+          "synonyms": []
+        },
+        {
+          "name": "engagedSessions",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "engaged_sessions",
+          "synonyms": []
+        },
+        {
+          "name": "engagementRate",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "engagement_rate",
+          "synonyms": []
+        },
+        {
+          "name": "bounceRate",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "bounce_rate",
+          "synonyms": []
+        },
+        {
+          "name": "conversions",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "conversions",
+          "synonyms": []
+        },
+        {
+          "name": "totalRevenue",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "revenue",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "name": "ga4_item_daily",
+      "platform": "GA4",
+      "type": "fact",
+      "primary_key": [
+        "date",
+        "itemId"
+      ],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "date",
+          "data_type": "date",
+          "role": "time",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "itemId",
+          "data_type": "varchar(191)",
+          "role": "dimension",
+          "semantic_type": "item_identifier",
+          "synonyms": []
+        },
+        {
+          "name": "itemName",
+          "data_type": "varchar(191)",
+          "role": "dimension",
+          "semantic_type": "item_name",
+          "synonyms": []
+        },
+        {
+          "name": "itemCategory",
+          "data_type": "varchar(191)",
+          "role": "dimension",
+          "semantic_type": "item_category",
+          "synonyms": []
+        },
+        {
+          "name": "purchaserRate",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "purchase_rate",
+          "synonyms": [
+            "purchase_rate"
+          ]
+        },
+        {
+          "name": "itemRevenue",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "revenue",
+          "synonyms": [
+            "item_revenue"
+          ]
+        },
+        {
+          "name": "itemsPurchased",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "purchase_count",
+          "synonyms": []
+        },
+        {
+          "name": "cartToViewRate",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "cart_to_view_rate",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "name": "ga4_landing_daily",
+      "platform": "GA4",
+      "type": "fact",
+      "primary_key": [
+        "date",
+        "landingPagePlusQueryString",
+        "sessionSourceMedium"
+      ],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "date",
+          "data_type": "date",
+          "role": "time",
+          "semantic_type": "time",
+          "synonyms": []
+        },
+        {
+          "name": "landingPagePlusQueryString",
+          "data_type": "varchar(191)",
+          "role": "dimension",
+          "semantic_type": "landing_page",
+          "synonyms": [
+            "landing_url"
+          ]
+        },
+        {
+          "name": "sessionSourceMedium",
+          "data_type": "varchar(191)",
+          "role": "dimension",
+          "semantic_type": "source_medium",
+          "synonyms": [
+            "source_medium"
+          ]
+        },
+        {
+          "name": "sessions",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "sessions",
+          "synonyms": []
+        },
+        {
+          "name": "activeUsers",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "active_users",
+          "synonyms": []
+        },
+        {
+          "name": "engagedSessions",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "engaged_sessions",
+          "synonyms": []
+        },
+        {
+          "name": "averageSessionDuration",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "avg_session_duration",
+          "synonyms": []
+        },
+        {
+          "name": "conversions",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "conversions",
+          "synonyms": []
+        },
+        {
+          "name": "totalRevenue",
+          "data_type": "decimal(18,6)",
+          "role": "metric",
+          "semantic_type": "revenue",
+          "synonyms": []
+        },
+        {
+          "name": "eventCount",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "event_count",
+          "synonyms": []
+        },
+        {
+          "name": "screenPageViews",
+          "data_type": "int",
+          "role": "metric",
+          "semantic_type": "page_views",
+          "synonyms": []
+        },
+        {
+          "name": "lpq_hash",
+          "data_type": "varchar(191)",
+          "role": "hash_key",
+          "semantic_type": "attribute",
+          "synonyms": []
+        }
+      ]
+    }
+  ],
+  "relationships": []
+}

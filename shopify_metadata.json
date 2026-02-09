@@ -1,0 +1,434 @@
+{
+  "tables": [
+    {
+      "name": "facebook_ads_performance",
+      "columns": [
+        "id",
+        "day",
+        "campaign_id",
+        "campaign_name",
+        "ad_set_id",
+        "ad_set_name",
+        "ad_id",
+        "ad_name",
+        "age",
+        "objective",
+        "attribution_setting",
+        "starts",
+        "ends",
+        "impressions",
+        "link_clicks",
+        "website_landing_page_views",
+        "messaging_conversations_started",
+        "add_to_cart",
+        "cost_per_add_to_cart",
+        "checkouts_initiated",
+        "purchases",
+        "amount_spent_nzd",
+        "cpc",
+        "cpm",
+        "ctr",
+        "video_plays_100",
+        "reporting_starts",
+        "reporting_ends"
+      ]
+    },
+    {
+      "name": "ga4_acquisition_channel_daily",
+      "columns": [
+        "date",
+        "sessionDefaultChannelGroup",
+        "sessionSource",
+        "sessionSourceMedium",
+        "sessionCampaignName",
+        "sessions",
+        "activeUsers",
+        "engagedSessions",
+        "engagementRate",
+        "bounceRate",
+        "conversions",
+        "totalRevenue",
+        "returnOnAdSpend",
+        "advertiserAdCost"
+      ]
+    },
+    {
+      "name": "ga4_item_actions_daily",
+      "columns": [
+        "date",
+        "sessionMedium",
+        "sessionCampaignName",
+        "sessionSource",
+        "eventName",
+        "addToCarts",
+        "cartToViewRate",
+        "checkouts",
+        "purchaseToViewRate",
+        "averagePurchaseRevenue",
+        "ecommercePurchases"
+      ]
+    },
+    {
+      "name": "ga4_item_daily",
+      "columns": [
+        "date",
+        "itemId",
+        "itemName",
+        "itemCategory",
+        "itemVariant",
+        "itemRevenue",
+        "itemsPurchased",
+        "addToCarts",
+        "ecommercePurchases"
+      ]
+    },
+    {
+      "name": "ga4_landing_daily",
+      "columns": [
+        "date",
+        "lpq_hash",
+        "landingPagePlusQueryString",
+        "sessionSourceMedium",
+        "sessionCampaignName",
+        "sessions",
+        "activeUsers",
+        "engagedSessions",
+        "averageSessionDuration",
+        "conversions",
+        "totalRevenue",
+        "eventCount",
+        "screenPageViews",
+        "eventName"
+      ]
+    },
+    {
+      "name": "ga4_transaction_level_data",
+      "columns": [
+        "id",
+        "transaction_id",
+        "session_campaign",
+        "session_source",
+        "session_medium",
+        "ecommerce_purchases",
+        "purchase_revenue"
+      ]
+    },
+    {
+      "name": "google_ads_campaign_performance",
+      "columns": [
+        "id",
+        "date",
+        "campaign",
+        "campaign_type",
+        "clicks",
+        "impressions",
+        "ctr",
+        "currency_code",
+        "avg_cpc",
+        "cost",
+        "conversions",
+        "cost_per_conv",
+        "conv_rate",
+        "orders",
+        "revenue"
+      ]
+    },
+    {
+      "name": "google_ads_conversions",
+      "columns": [
+        "id",
+        "day",
+        "campaign",
+        "ad_group",
+        "search_keyword",
+        "conversion_source",
+        "conversion_action",
+        "conversions"
+      ]
+    },
+    {
+      "name": "shopify_abandoned_checkouts",
+      "columns": [
+        "ab_checkout_id",
+        "checkout_name",
+        "created_at",
+        "completed_at",
+        "abandoned_url",
+        "customer_id",
+        "customer_email",
+        "currency",
+        "subtotal",
+        "total",
+        "line_title",
+        "line_variant",
+        "sku",
+        "qty"
+      ]
+    },
+    {
+      "name": "shopify_customers",
+      "columns": [
+        "customer_id",
+        "customer_first_name",
+        "customer_last_name",
+        "customer_email",
+        "email_marketing",
+        "customer_phone",
+        "customer_phone_marketing",
+        "customer_phone_collected_from",
+        "customer_created_at",
+        "customer_updated_at",
+        "customer_number_of_orders",
+        "state",
+        "amount_spent",
+        "currency",
+        "verified_email",
+        "tax_exempt",
+        "tags"
+      ]
+    },
+    {
+      "name": "shopify_discount_allocations",
+      "columns": [
+        "order_id",
+        "line_id",
+        "sku",
+        "line_name",
+        "quantity",
+        "alloc_amount",
+        "currency",
+        "application_typename",
+        "allocation_method",
+        "target_selection",
+        "target_type",
+        "value_typename",
+        "value",
+        "title",
+        "description",
+        "code"
+      ]
+    },
+    {
+      "name": "shopify_discount_applications",
+      "columns": [
+        "order_id",
+        "order_name",
+        "created_at",
+        "currency",
+        "app_index",
+        "application_typename",
+        "allocation_method",
+        "target_selection",
+        "target_type",
+        "value_typename",
+        "value",
+        "title",
+        "description",
+        "code"
+      ]
+    },
+    {
+      "name": "shopify_order_attribution",
+      "columns": [
+        "order_id",
+        "order_name",
+        "created_at",
+        "app_name",
+        "cj_ready",
+        "days_to_conv",
+        "first_landing",
+        "first_utm_source",
+        "first_utm_medium",
+        "first_utm_campaign",
+        "first_utm_term",
+        "first_utm_content",
+        "last_landing",
+        "last_utm_source",
+        "last_utm_medium",
+        "last_utm_campaign",
+        "last_utm_term",
+        "last_utm_content"
+      ]
+    },
+    {
+      "name": "shopify_orders_fulfillments",
+      "columns": [
+        "order_id",
+        "order_name",
+        "order_date",
+        "order_total_price",
+        "customer_id",
+        "customer_first_name",
+        "customer_last_name",
+        "customer_email",
+        "customer_phone",
+        "customer_created_date",
+        "fulfillment_id",
+        "fulfillment_status",
+        "estimated_delivery_date",
+        "tracking_info",
+        "origin_address",
+        "product_title",
+        "product_vendor",
+        "product_status",
+        "variant_id",
+        "variant_title",
+        "variant_price",
+        "sku",
+        "quantity",
+        "unit_price"
+      ]
+    },
+    {
+      "name": "shopify_products",
+      "columns": [
+        "product_id",
+        "sku",
+        "product_title",
+        "product_vendor",
+        "product_status",
+        "created_at",
+        "total_inventory",
+        "variant_id",
+        "variant_title",
+        "variant_price"
+      ]
+    },
+    {
+      "name": "shopify_subscription_attempts",
+      "columns": [
+        "attempt_id",
+        "contract_id",
+        "created_at",
+        "status",
+        "amount",
+        "currency",
+        "next_action",
+        "error_code",
+        "error_msg"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from_table": "shopify_abandoned_checkouts",
+      "from_column": "customer_id",
+      "to_table": "shopify_customers",
+      "to_column": "customer_id"
+    },
+    {
+      "from_table": "shopify_abandoned_checkouts",
+      "from_column": "customer_id",
+      "to_table": "shopify_orders_fulfillments",
+      "to_column": "customer_id"
+    },
+    {
+      "from_table": "shopify_customers",
+      "from_column": "customer_id",
+      "to_table": "shopify_abandoned_checkouts",
+      "to_column": "customer_id"
+    },
+    {
+      "from_table": "shopify_customers",
+      "from_column": "customer_id",
+      "to_table": "shopify_orders_fulfillments",
+      "to_column": "customer_id"
+    },
+    {
+      "from_table": "shopify_discount_allocations",
+      "from_column": "order_id",
+      "to_table": "shopify_discount_applications",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_discount_allocations",
+      "from_column": "order_id",
+      "to_table": "shopify_order_attribution",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_discount_allocations",
+      "from_column": "order_id",
+      "to_table": "shopify_orders_fulfillments",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_discount_applications",
+      "from_column": "order_id",
+      "to_table": "shopify_discount_allocations",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_discount_applications",
+      "from_column": "order_id",
+      "to_table": "shopify_order_attribution",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_discount_applications",
+      "from_column": "order_id",
+      "to_table": "shopify_orders_fulfillments",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_order_attribution",
+      "from_column": "order_id",
+      "to_table": "shopify_discount_allocations",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_order_attribution",
+      "from_column": "order_id",
+      "to_table": "shopify_discount_applications",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_order_attribution",
+      "from_column": "order_id",
+      "to_table": "shopify_orders_fulfillments",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_orders_fulfillments",
+      "from_column": "order_id",
+      "to_table": "shopify_discount_allocations",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_orders_fulfillments",
+      "from_column": "order_id",
+      "to_table": "shopify_discount_applications",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_orders_fulfillments",
+      "from_column": "order_id",
+      "to_table": "shopify_order_attribution",
+      "to_column": "order_id"
+    },
+    {
+      "from_table": "shopify_orders_fulfillments",
+      "from_column": "customer_id",
+      "to_table": "shopify_abandoned_checkouts",
+      "to_column": "customer_id"
+    },
+    {
+      "from_table": "shopify_orders_fulfillments",
+      "from_column": "customer_id",
+      "to_table": "shopify_customers",
+      "to_column": "customer_id"
+    },
+    {
+      "from_table": "shopify_orders_fulfillments",
+      "from_column": "variant_id",
+      "to_table": "shopify_products",
+      "to_column": "variant_id"
+    },
+    {
+      "from_table": "shopify_products",
+      "from_column": "variant_id",
+      "to_table": "shopify_orders_fulfillments",
+      "to_column": "variant_id"
+    }
+  ]
+}

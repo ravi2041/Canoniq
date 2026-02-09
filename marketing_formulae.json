@@ -1,0 +1,379 @@
+[
+  {
+    "metric": "Conversion Rate (CR)",
+    "formula": "(Conversions ÷ Impressions or Clicks) × 100",
+    "definition": "Percentage of visitors who take a desired action (purchase, signup, etc.).",
+    "use_case": "Measure efficiency of campaigns, landing pages, or ads.",
+    "example": {
+      "conversions": 500,
+      "clicks": 10000,
+      "result": "5%"
+    },
+    "category": "Acquisition"
+  },
+  {
+    "metric": "Customer Acquisition Cost (CAC)",
+    "formula": "CAC = Total Marketing & Sales Spend ÷ New Customers",
+    "definition": "Cost to acquire a single new customer.",
+    "use_case": "Compare CAC against CLV to assess profitability.",
+    "example": {
+      "spend": 10000,
+      "new_customers": 200,
+      "result": 50
+    },
+    "category": "Acquisition"
+  },
+  {
+    "metric": "Customer Lifetime Value (CLV)",
+    "formula": "CLV = Average Purchase Value × Purchase Frequency × Customer Lifespan",
+    "definition": "Predicted total revenue from a customer over their relationship with the business.",
+    "use_case": "Helps decide how much can be spent on customer acquisition.",
+    "example": {
+      "avg_purchase_value": 100,
+      "purchase_frequency": 5,
+      "lifespan_years": 3,
+      "result": 1500
+    },
+    "category": "Retention"
+  },
+  {
+    "metric": "Return on Investment (ROI)",
+    "formula": "ROI = (Revenue – Cost) ÷ Cost × 100",
+    "definition": "Percentage return from a given investment.",
+    "use_case": "Measure overall profitability of marketing campaigns.",
+    "example": {
+      "revenue": 50000,
+      "cost": 20000,
+      "result": "150%"
+    },
+    "category": "Profitability"
+  },
+  {
+    "metric": "Return on Ad Spend (ROAS)",
+    "formula": "ROAS = Revenue from Ads ÷ Ad Spend",
+    "definition": "Revenue generated for every $1 spent on advertising.",
+    "use_case": "Evaluate ad channel efficiency.",
+    "example": {
+      "revenue_from_ads": 40000,
+      "ad_spend": 10000,
+      "result": 4
+    },
+    "category": "Profitability"
+  },
+  {
+    "metric": "Click-Through Rate (CTR)",
+    "formula": "(Clicks ÷ Impressions) × 100",
+    "definition": "Percentage of users who clicked on an ad after seeing it.",
+    "use_case": "Evaluate creative performance and targeting.",
+    "example": {
+      "clicks": 2000,
+      "impressions": 50000,
+      "result": "4%"
+    },
+    "category": "Engagement"
+  },
+  {
+    "metric": "Churn Rate",
+    "formula": "(Customers Lost ÷ Customers at Start of Period) × 100",
+    "definition": "Percentage of customers who stop using the service or cancel within a given time.",
+    "use_case": "Track retention effectiveness.",
+    "example": {
+      "lost_customers": 50,
+      "start_customers": 1000,
+      "result": "5%"
+    },
+    "category": "Retention"
+  },
+  {
+    "metric": "Net Promoter Score (NPS)",
+    "formula": "NPS = % Promoters – % Detractors",
+    "definition": "Measures customer loyalty and likelihood of recommendation.",
+    "use_case": "Predict growth potential through customer advocacy.",
+    "example": {
+      "promoters": 60,
+      "detractors": 20,
+      "result": 40
+    },
+    "category": "Satisfaction"
+  },
+  {
+    "metric": "Cost Per Acquisition (CPA)",
+    "formula": "CPA = Total Spend ÷ Conversions",
+    "definition": "Cost of acquiring a single conversion (purchase, signup, etc.).",
+    "use_case": "Track ad or channel cost efficiency.",
+    "example": {
+      "spend": 5000,
+      "conversions": 250,
+      "result": 20
+    },
+    "category": "Acquisition"
+  },
+  {
+    "metric": "Brand Development Index (BDI)",
+    "formula": "BDI = ((Brand Sales in Market ÷ Population in Market) ÷ (Total Brand Sales ÷ Total Population)) × 100",
+    "definition": "Strength of a brand in a specific segment relative to its overall performance.",
+    "use_case": "Identify strong or weak markets for a brand.",
+    "example": {
+      "brand_sales_market": 20000,
+      "population_market": 100000,
+      "total_brand_sales": 500000,
+      "total_population": 2000000,
+      "result": 80
+    },
+    "category": "Market Analysis"
+  },
+  {
+    "metric": "Category Development Index (CDI)",
+    "formula": "CDI = ((Category Sales in Market ÷ Population in Market) ÷ (Total Category Sales ÷ Total Population)) × 100",
+    "definition": "Measures how well a product category performs in a specific market compared to average.",
+    "use_case": "Guide category expansion strategies.",
+    "example": {
+      "category_sales_market": 50000,
+      "population_market": 100000,
+      "total_category_sales": 2000000,
+      "total_population": 2000000,
+      "result": 50
+    },
+    "category": "Market Analysis"
+  },
+  {
+    "metric": "Conversion Rate (CR)",
+    "formula": "(Conversions ÷ Impressions or Clicks) × 100",
+    "definition": "Percentage of visitors who take a desired action.",
+    "use_case": "Measure efficiency of campaigns, landing pages, or ads.",
+    "example": { "conversions": 500, "clicks": 10000, "result": "5%" },
+    "category": "Acquisition"
+  },
+  {
+    "metric": "Customer Acquisition Cost (CAC)",
+    "formula": "Total Marketing & Sales Spend ÷ New Customers",
+    "definition": "Cost to acquire a new customer.",
+    "use_case": "Compare CAC against CLV for profitability.",
+    "example": { "spend": 10000, "new_customers": 200, "result": 50 },
+    "category": "Acquisition"
+  },
+  {
+    "metric": "Customer Lifetime Value (CLV)",
+    "formula": "Average Purchase Value × Purchase Frequency × Customer Lifespan",
+    "definition": "Predicted total revenue per customer.",
+    "use_case": "Decide how much to spend on acquisition.",
+    "example": { "avg_purchase_value": 100, "purchase_frequency": 5, "lifespan_years": 3, "result": 1500 },
+    "category": "Retention"
+  },
+  {
+    "metric": "CLV:CAC Ratio",
+    "formula": "CLV ÷ CAC",
+    "definition": "Relationship between customer value and acquisition cost.",
+    "use_case": "Evaluate business scalability.",
+    "example": { "CLV": 1500, "CAC": 300, "result": 5 },
+    "category": "Profitability"
+  },
+  {
+    "metric": "Return on Investment (ROI)",
+    "formula": "(Revenue – Cost) ÷ Cost × 100",
+    "definition": "Percentage return from investment.",
+    "use_case": "Measure profitability of campaigns.",
+    "example": { "revenue": 50000, "cost": 20000, "result": "150%" },
+    "category": "Profitability"
+  },
+  {
+    "metric": "Return on Ad Spend (ROAS)",
+    "formula": "Revenue from Ads ÷ Ad Spend",
+    "definition": "Revenue generated per $1 spent on ads.",
+    "use_case": "Evaluate ad efficiency.",
+    "example": { "revenue_from_ads": 40000, "ad_spend": 10000, "result": 4 },
+    "category": "Profitability"
+  },
+  {
+    "metric": "Click-Through Rate (CTR)",
+    "formula": "(Clicks ÷ Impressions) × 100",
+    "definition": "Percentage of impressions that resulted in clicks.",
+    "use_case": "Evaluate creative or ad performance.",
+    "example": { "clicks": 2000, "impressions": 50000, "result": "4%" },
+    "category": "Engagement"
+  },
+  {
+    "metric": "Cost Per Click (CPC)",
+    "formula": "Total Spend ÷ Clicks",
+    "definition": "Average cost of each ad click.",
+    "use_case": "Optimize bidding strategies.",
+    "example": { "spend": 2000, "clicks": 500, "result": 4 },
+    "category": "Acquisition"
+  },
+  {
+    "metric": "Cost Per Acquisition (CPA)",
+    "formula": "Total Spend ÷ Conversions",
+    "definition": "Cost of acquiring a single conversion.",
+    "use_case": "Track channel efficiency.",
+    "example": { "spend": 5000, "conversions": 250, "result": 20 },
+    "category": "Acquisition"
+  },
+  {
+    "metric": "Churn Rate",
+    "formula": "(Customers Lost ÷ Customers at Start of Period) × 100",
+    "definition": "Percentage of customers lost.",
+    "use_case": "Track retention effectiveness.",
+    "example": { "lost_customers": 50, "start_customers": 1000, "result": "5%" },
+    "category": "Retention"
+  },
+  {
+    "metric": "Retention Rate",
+    "formula": "((Customers End – New Customers) ÷ Customers Start) × 100",
+    "definition": "Percentage of customers retained.",
+    "use_case": "Measure loyalty and retention programs.",
+    "example": { "end_customers": 950, "new_customers": 100, "start_customers": 1000, "result": "85%" },
+    "category": "Retention"
+  },
+  {
+    "metric": "Net Promoter Score (NPS)",
+    "formula": "% Promoters – % Detractors",
+    "definition": "Customer loyalty & recommendation measure.",
+    "use_case": "Predict customer-driven growth.",
+    "example": { "promoters": 60, "detractors": 20, "result": 40 },
+    "category": "Satisfaction"
+  },
+  {
+    "metric": "Engagement Rate (ER)",
+    "formula": "(Engagements ÷ Followers) × 100",
+    "definition": "Level of audience interaction with content.",
+    "use_case": "Track social media content effectiveness.",
+    "example": { "engagements": 1500, "followers": 50000, "result": "3%" },
+    "category": "Engagement"
+  },
+  {
+    "metric": "Bounce Rate",
+    "formula": "(Single Page Visits ÷ Total Sessions) × 100",
+    "definition": "Percentage of users who leave after one page.",
+    "use_case": "Indicates landing page relevance.",
+    "example": { "single_page_visits": 2000, "sessions": 5000, "result": "40%" },
+    "category": "Engagement"
+  },
+  {
+    "metric": "Average Session Duration",
+    "formula": "Total Time on Site ÷ Total Sessions",
+    "definition": "Average user time spent per session.",
+    "use_case": "Indicates engagement depth.",
+    "example": { "time_seconds": 25000, "sessions": 5000, "result": "5 sec" },
+    "category": "Engagement"
+  },
+  {
+    "metric": "Page Views per Session",
+    "formula": "Total Page Views ÷ Sessions",
+    "definition": "Average number of pages visited.",
+    "use_case": "Indicates content engagement.",
+    "example": { "page_views": 25000, "sessions": 5000, "result": 5 },
+    "category": "Engagement"
+  },
+  {
+    "metric": "Email Open Rate",
+    "formula": "(Emails Opened ÷ Emails Delivered) × 100",
+    "definition": "Percentage of opened emails.",
+    "use_case": "Evaluate subject line effectiveness.",
+    "example": { "opened": 2000, "delivered": 10000, "result": "20%" },
+    "category": "Email"
+  },
+  {
+    "metric": "Email Click Rate",
+    "formula": "(Email Clicks ÷ Emails Delivered) × 100",
+    "definition": "Percentage of recipients clicking links.",
+    "use_case": "Measure email engagement.",
+    "example": { "clicks": 500, "delivered": 10000, "result": "5%" },
+    "category": "Email"
+  },
+  {
+    "metric": "Unsubscribe Rate",
+    "formula": "(Unsubscribes ÷ Emails Delivered) × 100",
+    "definition": "Percentage of users opting out.",
+    "use_case": "Monitor email fatigue.",
+    "example": { "unsubscribes": 50, "delivered": 10000, "result": "0.5%" },
+    "category": "Email"
+  },
+  {
+    "metric": "Shopping Cart Abandonment Rate",
+    "formula": "((Carts Created – Purchases) ÷ Carts Created) × 100",
+    "definition": "Percentage of carts abandoned before checkout.",
+    "use_case": "Optimize checkout process.",
+    "example": { "carts": 1000, "purchases": 700, "result": "30%" },
+    "category": "eCommerce"
+  },
+  {
+    "metric": "Average Order Value (AOV)",
+    "formula": "Revenue ÷ Number of Orders",
+    "definition": "Average revenue per order.",
+    "use_case": "Optimize upselling and pricing.",
+    "example": { "revenue": 100000, "orders": 2500, "result": 40 },
+    "category": "eCommerce"
+  },
+  {
+    "metric": "Gross Merchandise Value (GMV)",
+    "formula": "Total Sales Volume in Marketplace",
+    "definition": "Total value of merchandise sold.",
+    "use_case": "Track eCommerce growth.",
+    "example": { "sales_volume": 200000, "result": 200000 },
+    "category": "eCommerce"
+  },
+  {
+    "metric": "Impression Share",
+    "formula": "(Impressions ÷ Eligible Impressions) × 100",
+    "definition": "Share of total possible ad impressions captured.",
+    "use_case": "Track competitive ad reach.",
+    "example": { "impressions": 80000, "eligible": 100000, "result": "80%" },
+    "category": "Advertising"
+  },
+  {
+    "metric": "Quality Score",
+    "formula": "Google Ads Weighted Score (CTR, Ad Relevance, Landing Page Exp.)",
+    "definition": "Measure of ad quality on Google Ads (scale 1–10).",
+    "use_case": "Affects CPC & ad rank.",
+    "example": { "ctr": "5%", "ad_relevance": "High", "landing_page": "Excellent", "result": 9 },
+    "category": "Advertising"
+  },
+  {
+    "metric": "Cost Per Mille (CPM)",
+    "formula": "(Ad Spend ÷ Impressions) × 1000",
+    "definition": "Cost per 1000 ad impressions.",
+    "use_case": "Track display ad cost efficiency.",
+    "example": { "spend": 2000, "impressions": 500000, "result": 4 },
+    "category": "Advertising"
+  },
+  {
+    "metric": "SEO Organic CTR",
+    "formula": "(Organic Clicks ÷ Organic Impressions) × 100",
+    "definition": "Click rate on organic search results.",
+    "use_case": "Measure SERP snippet performance.",
+    "example": { "clicks": 2000, "impressions": 100000, "result": "2%" },
+    "category": "SEO"
+  },
+  {
+    "metric": "Keyword Ranking Index",
+    "formula": "Average Position Across Tracked Keywords",
+    "definition": "Overall ranking performance in search.",
+    "use_case": "Track SEO visibility.",
+    "example": { "keywords": 100, "avg_position": 8.5, "result": 8.5 },
+    "category": "SEO"
+  },
+  {
+    "metric": "Domain Authority (DA)",
+    "formula": "Moz/SEO Score (1–100)",
+    "definition": "SEO strength of a domain.",
+    "use_case": "Estimate ranking ability.",
+    "example": { "backlinks": 5000, "result": 65 },
+    "category": "SEO"
+  },
+  {
+    "metric": "Social Share of Voice (SSoV)",
+    "formula": "(Brand Mentions ÷ Total Mentions in Industry) × 100",
+    "definition": "Share of conversations about brand online.",
+    "use_case": "Track brand visibility vs competitors.",
+    "example": { "brand_mentions": 2000, "total_mentions": 10000, "result": "20%" },
+    "category": "Social"
+  },
+  {
+    "metric": "Video Completion Rate (VCR)",
+    "formula": "(Completed Views ÷ Video Starts) × 100",
+    "definition": "Percentage of viewers who watched full video.",
+    "use_case": "Track video content effectiveness.",
+    "example": { "completed": 800, "starts": 1000, "result": "80%" },
+    "category": "Social"
+  }
+]

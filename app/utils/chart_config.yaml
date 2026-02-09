@@ -1,0 +1,21 @@
+defaults:
+  top_n: 15          # default top N values for bar/pie
+  max_categories: 10 # collapse other categories into "Other"
+  outlier_quantile: 0.99 # clip scatter/line outliers at 99th percentile
+  time_freq: "MS"    # aggregate to monthly start
+
+charts:
+  bar:
+    top_n: 12
+    max_categories: 15
+  pie:
+    top_n: 8
+    max_categories: 8
+  line:
+    time_freq: "MS"
+    max_groups: 6
+  area:
+    time_freq: "MS"
+    max_groups: 6
+  scatter:
+    outlier_quantile: 0.95

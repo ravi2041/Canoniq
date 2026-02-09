@@ -1,0 +1,135 @@
+# ----------------------------------------
+# First Time Visitors
+# Campagin Performance-Free form 1
+# 20250401-20250714
+# ----------------------------------------
+
+Source / medium,Campaign,Landing page,Device category,Event name,Sessions,Bounce rate,Engagement rate,Key events
+,,,,,118,0,1,434.00000000000006,Grand total
+(direct) / (none),(direct),(not set),mobile,add_to_cart,1,0,1,3
+(direct) / (none),(direct),/,desktop,add_to_cart,2,0,1,7
+(direct) / (none),(direct),/,desktop,begin_checkout,2,0,1,2
+(direct) / (none),(direct),/,mobile,add_to_cart,2,0,1,9
+(direct) / (none),(direct),/checkouts/cn/Z2NwLXVzLWNlbnRyYWwxOjAxSlNaMkRRUEQ1OVNTTjYyOUtOTktEOFpF,mobile,begin_checkout,1,0,1,1
+(direct) / (none),(direct),/checkouts/cn/Z2NwLXVzLWVhc3QxOjAxSlM5OURDOVQyMjY1M1hLQ0ZSQkJBME43,desktop,add_to_cart,1,0,1,1
+(direct) / (none),(direct),/checkouts/cn/Z2NwLXVzLWVhc3QxOjAxSlM5OURDOVQyMjY1M1hLQ0ZSQkJBME43,desktop,begin_checkout,1,0,1,1
+(direct) / (none),(direct),/collections/kurti-palazzos,mobile,add_to_cart,1,0,1,3
+(direct) / (none),(direct),/collections/saree-blouses,mobile,add_to_cart,1,0,1,3
+(direct) / (none),(direct),/products/designer-chinon-party-wear-dress-mirror-embroidery-work-1,desktop,add_to_cart,1,0,1,1
+(direct) / (none),(direct),/products/designer-chinon-party-wear-dress-mirror-embroidery-work-1,desktop,begin_checkout,1,0,1,1
+(not set),(not set),/,desktop,add_to_cart,1,0,1,3
+(not set),(not set),/,desktop,begin_checkout,1,0,1,1
+(not set),(not set),/,mobile,add_to_cart,1,0,1,3
+(not set),(not set),/collections/suits-salwaar,mobile,add_to_cart,1,0,1,3
+Meta Ads / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/,mobile,add_to_cart,4,0,1,4.838043
+Meta Ads / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/,mobile,begin_checkout,2,0,1,1.610256
+Meta Ads / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/designer-chinon-silk-palazzo-suit-perfect-for-festivals,mobile,add_to_cart,1,0,1,0
+Meta Ads / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/elegant-lime-green-georgette-salwar-suit-set,mobile,add_to_cart,1,0,1,0.033075
+Meta Ads / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/ethereal-beauty-white-embroidered-salwar-kameez-with-sheer-floral-dupatta,mobile,add_to_cart,1,0,1,0.005484
+Meta Ads / {{campaign.name}},{{adset.name}},/,desktop,add_to_cart,1,0,1,2.904828
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/,mobile,add_to_cart,36,0,1,91.470455
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/,mobile,begin_checkout,10,0,1,6.32453
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/collections/designer-suits,mobile,add_to_cart,1,0,1,3
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/beige-cotton-embroidered-suit-salwaar,mobile,add_to_cart,1,0,1,2.278587
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/designer-chinon-party-wear-dress-mirror-embroidery-work-1,mobile,add_to_cart,1,0,1,3
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/elegant-lime-green-georgette-salwar-suit-set,mobile,add_to_cart,2,0,1,1.975578
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/elegant-yellow-embroidered-anarkali-suit,mobile,add_to_cart,1,0,1,0.069102
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/elegant-yellow-embroidered-anarkali-suit,mobile,begin_checkout,1,0,1,0.023379
+MetaAds_Video / Suits_Salwaar_Always_On_20_April,pacific_mart_nz_sales_Insta_Facebook,/products/ethereal-beauty-white-embroidered-salwar-kameez-with-sheer-floral-dupatta,mobile,add_to_cart,1,0,1,2.107191
+MetaAds_Video / {{campaign.name}},{{adset.name}},/,desktop,add_to_cart,2,0,1,2.391931
+MetaAds_Video / {{campaign.name}},{{adset.name}},/,desktop,begin_checkout,2,0,1,0.653616
+MetaAds_Video / {{campaign.name}},{{adset.name}},/,mobile,add_to_cart,1,0,1,0
+MetaAds_Video / {{campaign.name}},{{adset.name}},/,mobile,begin_checkout,1,0,1,0
+MetaAds_Video / {{campaign.name}},{{adset.name}},/en-in,desktop,add_to_cart,1,0,1,1
+Suits_Salwaar_Always_On_20_April / pacific_mart_nz_sales_Insta_Facebook,Boutique_story_ad,/,mobile,add_to_cart,1,0,1,3
+Suits_Salwaar_Always_On_20_April / pacific_mart_nz_sales_Insta_Facebook,Boutique_story_ad,/,mobile,begin_checkout,1,0,1,1
+Suits_Salwaar_Always_On_20_April / pacific_mart_nz_sales_Insta_Facebook,video_ad_roshni_voice_all_placement,/,mobile,add_to_cart,1,0,1,3
+adsmanager.facebook.com / referral,(referral),/,desktop,add_to_cart,2,0,1,0
+adsmanager.facebook.com / referral,(referral),/,desktop,begin_checkout,1,0,1,0
+adsmanager.facebook.com / referral,(referral),/en-in,desktop,add_to_cart,1,0,1,0
+adsmanager.facebook.com / referral,(referral),/products/a-line-black-white-dress,desktop,add_to_cart,1,0,1,0
+adsmanager.facebook.com / referral,(referral),/products/a-line-black-white-dress,desktop,begin_checkout,1,0,1,0
+business.facebook.com / referral,(referral),/,desktop,add_to_cart,1,0,1,0
+business.facebook.com / referral,(referral),/,desktop,begin_checkout,1,0,1,0
+business.facebook.com / referral,(referral),/products/a-line-black-white-dress,desktop,add_to_cart,1,0,1,0
+business.facebook.com / referral,(referral),/products/a-line-black-white-dress,desktop,begin_checkout,1,0,1,0
+facebook / paid,(referral),/,mobile,add_to_cart,7,0,1,2.331366
+facebook / paid,(referral),/,mobile,begin_checkout,3,0,1,0.717279
+facebook / paid,(referral),/products/beige-cotton-embroidered-suit-salwaar,mobile,add_to_cart,1,0,1,0.721413
+facebook / paid,(referral),/products/elegant-cream-grey-printed-co-ord-set-for-effortless-style,mobile,add_to_cart,1,0,1,1
+facebook / paid,(referral),/products/elegant-lime-green-georgette-salwar-suit-set,mobile,add_to_cart,2,0,1,3.991347
+facebook / paid,(referral),/products/elegant-yellow-embroidered-anarkali-suit,mobile,add_to_cart,1,0,1,2.930898
+facebook / paid,(referral),/products/elegant-yellow-embroidered-anarkali-suit,mobile,begin_checkout,1,0,1,0.976621
+facebook / paid,(referral),/products/embroidered-kurta-set-with-organza-dupatta-a-line-viscose-rayon,mobile,add_to_cart,1,0,1,4
+facebook / paid,(referral),/products/ethereal-beauty-white-embroidered-salwar-kameez-with-sheer-floral-dupatta,mobile,add_to_cart,3,0,1,6.887325
+facebook / paid,(referral),/products/golden-glow-yellow-embroidered-salwar-kameez-with-pink-highlights,mobile,add_to_cart,1,0,1,3
+facebook / paid,(referral),/products/purple-monga-silk-jacquard-kurta-palazzo-set-💕,mobile,add_to_cart,1,0,1,3
+facebook / paid,120222398482490154,/,mobile,add_to_cart,1,0,1,1.062906
+facebook / paid,120222398482490154,/,mobile,begin_checkout,1,0,1,0.097436
+facebook / paid,120222398482490154,/products/beige-cotton-embroidered-suit-salwaar,mobile,add_to_cart,1,0,1,3
+facebook / paid,120222398482490154,/products/designer-chinon-silk-palazzo-suit-perfect-for-festivals,mobile,add_to_cart,1,0,1,3
+facebook / paid,120222398482490154,/products/serene-sky-blue-kurti-palazzo-ensemble,mobile,add_to_cart,1,0,1,3
+facebook / paid,120227934035310154,/,mobile,add_to_cart,15,0,1,48.679034
+facebook / paid,120227934035310154,/,mobile,begin_checkout,6,0,1,8.958191
+facebook / paid,120227934035310154,/,mobile,purchase,1,0,1,1
+facebook / paid,120227934035310154,/products/golden-yellow-celeste-shimmer-tissue-sarees,mobile,add_to_cart,1,0,1,3
+google / cpc,PMax: Shopping ecommerce campaign,/,mobile,add_to_cart,1,0,1,0
+google / cpc,Sales ad - New Catalog,/products/cotton-blend-straight-printed-kurta-with-pant,desktop,add_to_cart,1,0,1,3
+google / cpc,Sales ad - New Catalog,/products/embroidered-kurta-set-with-organza-dupatta-a-line-viscose-rayon,mobile,add_to_cart,1,0,1,3
+google / organic,(organic),/,desktop,add_to_cart,4,0,1,3.063372
+google / organic,(organic),/,desktop,begin_checkout,3,0,1,1.029134
+google / organic,(organic),/,mobile,add_to_cart,8,0,1,34.365265
+google / organic,(organic),/,mobile,begin_checkout,3,0,1,3.994792
+google / organic,(organic),/,mobile,purchase,2,0,1,1.988113
+google / organic,(organic),/cart,mobile,add_to_cart,1,0,1,3
+google / organic,(organic),/cart,mobile,begin_checkout,3,0,1,3
+google / organic,(organic),/cart,mobile,purchase,1,0,1,1
+google / organic,(organic),/products/a-line-black-white-dress,desktop,add_to_cart,1,0,1,0
+google / organic,(organic),/products/a-line-black-white-dress,desktop,begin_checkout,1,0,1,0
+google / product_sync,sag_organic,/,desktop,add_to_cart,1,0,1,0.095172
+l.facebook.com / paid,120227934035310154,/,mobile,add_to_cart,1,0,1,0.999999
+l.facebook.com / referral,(referral),/,desktop,add_to_cart,4,0,1,3.707196
+l.facebook.com / referral,(referral),/,desktop,begin_checkout,3,0,1,0
+l.facebook.com / referral,(referral),/,mobile,add_to_cart,5,0,1,6
+l.facebook.com / referral,(referral),/,mobile,begin_checkout,5,0,1,4
+l.facebook.com / referral,(referral),/en-in,desktop,add_to_cart,1,0,1,0
+l.facebook.com / referral,(referral),/products/a-line-black-white-dress,desktop,add_to_cart,1,0,1,0
+l.facebook.com / referral,(referral),/products/a-line-black-white-dress,desktop,begin_checkout,1,0,1,0
+l.facebook.com / referral,(referral),/products/elegant-lime-green-georgette-salwar-suit-set,mobile,add_to_cart,1,0,1,0
+l.facebook.com / referral,(referral),/products/ethereal-beauty-white-embroidered-salwar-kameez-with-sheer-floral-dupatta,mobile,add_to_cart,1,0,1,0
+l.instagram.com / referral,(referral),/,mobile,add_to_cart,6,0,1,28.188718
+l.instagram.com / referral,(referral),/,mobile,begin_checkout,3,0,1,1.292308
+lm.facebook.com / referral,(referral),/,mobile,add_to_cart,1,0,1,3
+lm.facebook.com / referral,(referral),/,mobile,begin_checkout,2,0,1,2
+m.facebook.com / referral,(referral),/,mobile,add_to_cart,4,0,1,16.064214
+portal.vetta.online / referral,(referral),/,desktop,add_to_cart,3,0,1,0.899353
+portal.vetta.online / referral,(referral),/,desktop,begin_checkout,3,0,1,1.974064
+portal.vetta.online / referral,(referral),/en-in,desktop,add_to_cart,1,0,1,0
+portal.vetta.online / referral,(referral),/products/a-line-black-white-dress,desktop,add_to_cart,1,0,1,0
+portal.vetta.online / referral,(referral),/products/a-line-black-white-dress,desktop,begin_checkout,1,0,1,0.333333
+shopify_email / email,Celebrate Her Love with 10% Off – Limited Time Only!_127036948529,/products/designer-chinon-party-wear-dress-mirror-embroidery-work-1,mobile,add_to_cart,1,0,1,9
+shopify_email / email,Did something catch your eye?_126446043185,/products/timeless-charm-navy-blue-embroidered-salwar-kameez-with-vibrant-floral-dupatta,mobile,add_to_cart,1,0,1,4
+shopify_email / email,New Arrivals Just Landed! Shop Exclusive Styles Now!_126736171057,/,desktop,add_to_cart,2,0,1,0
+shopify_email / email,New Arrivals Just Landed! Shop Exclusive Styles Now!_126736171057,/,desktop,begin_checkout,1,0,1,0
+shopify_email / email,New Arrivals Just Landed! Shop Exclusive Styles Now!_126736171057,/,mobile,add_to_cart,1,0,1,0
+shopify_email / email,New Arrivals Just Landed! Shop Exclusive Styles Now!_126736171057,/,mobile,begin_checkout,1,0,1,0
+shopify_email / email,New Arrivals Just Landed! Shop Exclusive Styles Now!_126736171057,/,mobile,purchase,1,0,1,0
+shopify_email / email,New! Visit Our Studio & Try Before You Buy! 🌟_126844239921,/,desktop,add_to_cart,3,0,1,0.00152
+shopify_email / email,New! Visit Our Studio & Try Before You Buy! 🌟_126844239921,/,desktop,begin_checkout,3,0,1,0.383942
+shopify_email / email,Welcome to the Pacific Mart Family! Here’s Your Discount_126659362865,/,mobile,add_to_cart,1,0,1,3
+shopify_email / email,Welcome to the Pacific Mart Family! Here’s Your Discount_126659362865,/products/georgette-traditional-plazzo-suit-for-festivals,mobile,add_to_cart,1,0,1,3
+shopify_email / email,You left items in your cart_126037950513,/,desktop,add_to_cart,1,0,1,0
+shopify_email / email,_126659362865,/,desktop,add_to_cart,2,0,1,0
+shopify_email / email,_126659362865,/,desktop,begin_checkout,1,0,1,0.007192
+shopify_email / email,_126659362865,/,mobile,add_to_cart,1,0,1,0
+shopify_email / email,_126659362865,/,mobile,begin_checkout,1,0,1,0.004422
+shopify_email / email,_126659362865,/,mobile,purchase,1,0,1,0.011887
+tagassistant.google.com / referral,(referral),/,desktop,add_to_cart,5,0,1,4.936628
+tagassistant.google.com / referral,(referral),/,desktop,begin_checkout,4,0,1,5.952052
+tagassistant.google.com / referral,(referral),/,mobile,add_to_cart,1,0,1,0
+tagassistant.google.com / referral,(referral),/,mobile,begin_checkout,1,0,1,0.000786
+tagassistant.google.com / referral,(referral),/,mobile,purchase,1,0,1,0
+tagassistant.google.com / referral,(referral),/en-in,desktop,add_to_cart,1,0,1,0
+tagassistant.google.com / referral,(referral),/products/a-line-black-white-dress,desktop,add_to_cart,1,0,1,3
+tagassistant.google.com / referral,(referral),/products/a-line-black-white-dress,desktop,begin_checkout,1,0,1,0.666667
+

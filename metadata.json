@@ -1,0 +1,243 @@
+{
+  "tables": [
+    {
+      "name": "cm360_conversion_data",
+      "columns": [
+        "date",
+        "advertiser",
+        "product",
+        "campaign_id",
+        "campaign",
+        "campaign_year",
+        "site_id",
+        "site",
+        "placement_id",
+        "placement",
+        "creative_id",
+        "creative",
+        "activity_id",
+        "activity",
+        "primary_category",
+        "sub_category1",
+        "monthly_itematgname",
+        "phone_itematgname",
+        "business_group",
+        "product_parameter",
+        "technology",
+        "product_type",
+        "power_type",
+        "product_brand",
+        "device",
+        "total_conversions"
+      ],
+      "platform": "CM360",
+      "metrics_type": "conversion",
+      "notes": "Table `cm360_conversion_data` is treated as a standalone platform dataset for aggregation before merging."
+    },
+    {
+      "name": "cm360_data",
+      "columns": [
+        "date",
+        "advertiser",
+        "product",
+        "campaign_id",
+        "campaign",
+        "campaign_year",
+        "site_id",
+        "site",
+        "placement_id",
+        "placement",
+        "creative_id",
+        "creative",
+        "impressions",
+        "clicks",
+        "cost",
+        "video_25",
+        "video_50",
+        "video_75",
+        "video_100",
+        "viewable_impression",
+        "post_reaction",
+        "post_engagement"
+      ],
+      "platform": "CM360",
+      "metrics_type": "engagement",
+      "notes": "Table `cm360_data` is treated as a standalone platform dataset for aggregation before merging."
+    },
+    {
+      "name": "facebook_data",
+      "columns": [
+        "date",
+        "advertiser",
+        "product",
+        "campaign_id",
+        "campaign",
+        "campaign_year",
+        "site_id",
+        "site",
+        "placement_id",
+        "placement",
+        "creative_id",
+        "creative",
+        "impressions",
+        "clicks",
+        "cost",
+        "video_25",
+        "video_50",
+        "video_75",
+        "video_100",
+        "viewable_impression",
+        "post_reaction",
+        "post_engagement"
+      ],
+      "platform": "Facebook",
+      "metrics_type": "engagement",
+      "notes": "Table `facebook_data` is treated as a standalone platform dataset for aggregation before merging."
+    },
+    {
+      "name": "tiktok_data",
+      "columns": [
+        "date",
+        "advertiser",
+        "product",
+        "campaign_id",
+        "campaign",
+        "campaign_year",
+        "site_id",
+        "site",
+        "placement_id",
+        "placement",
+        "creative_id",
+        "creative",
+        "impressions",
+        "clicks",
+        "cost",
+        "video_25",
+        "video_50",
+        "video_75",
+        "video_100",
+        "viewable_impression",
+        "post_reaction",
+        "post_engagement"
+      ],
+      "platform": "TikTok",
+      "metrics_type": "engagement",
+      "notes": "Table `tiktok_data` is treated as a standalone platform dataset for aggregation before merging."
+    },
+    {
+      "name": "youtube_data",
+      "columns": [
+        "date",
+        "advertiser",
+        "product",
+        "campaign_id",
+        "campaign",
+        "campaign_year",
+        "site_id",
+        "site",
+        "placement_id",
+        "placement",
+        "creative_id",
+        "creative",
+        "impressions",
+        "clicks",
+        "cost",
+        "video_25",
+        "video_50",
+        "video_75",
+        "video_100",
+        "viewable_impression",
+        "post_reaction",
+        "post_engagement"
+      ],
+      "platform": "Unknown",
+      "metrics_type": "engagement",
+      "notes": "Table `youtube_data` is treated as a standalone platform dataset for aggregation before merging."
+    }
+  ],
+  "relationships": [
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "campaign",
+      "to_table": "cm360_data",
+      "to_column": "campaign"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "campaign",
+      "to_table": "facebook_data",
+      "to_column": "campaign"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "campaign",
+      "to_table": "tiktok_data",
+      "to_column": "campaign"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "campaign",
+      "to_table": "youtube_data",
+      "to_column": "campaign"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "placement",
+      "to_table": "cm360_data",
+      "to_column": "placement"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "placement",
+      "to_table": "facebook_data",
+      "to_column": "placement"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "placement",
+      "to_table": "tiktok_data",
+      "to_column": "placement"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "placement",
+      "to_table": "youtube_data",
+      "to_column": "placement"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "creative",
+      "to_table": "cm360_data",
+      "to_column": "creative"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "creative",
+      "to_table": "facebook_data",
+      "to_column": "creative"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "creative",
+      "to_table": "tiktok_data",
+      "to_column": "creative"
+    },
+    {
+      "from_table": "cm360_conversion_data",
+      "from_column": "creative",
+      "to_table": "youtube_data",
+      "to_column": "creative"
+    },
+    {
+  "pattern": "Performance reporting requires aggregating each platform separately (facebook_data, youtube_data, tiktok_data, linkedin_data) and unioning them. Conversions come only from cm360_conversion_data and must be joined by campaign name + site."
+    }
+
+  ],
+  "guidelines": [
+    "When users ask for cross platform marketing questions, do not join source tables directly.",
+    "Always group and aggregate data by platform first, then union results before comparisons.",
+    "Always group and aggregate data first where table focuses on ad engagement metrics and tables that are focused on conversions.",
+    "Avoid joining on non-matching columns like 'campaign name', 'ad name', 'placement name' between marketing platforms.",
+    "Instead, provide different views for each platform and merge at the summary level only."
+  ]
+}

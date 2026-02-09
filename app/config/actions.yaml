@@ -1,0 +1,21 @@
+actions:
+  reallocate: reallocate_budget
+  increase spend: scale_budget
+  scale: scale_budget
+  pause: pause_entity
+  audit: audit_tracking
+  enable conversion: enable_conversion_tracking
+  standardize campaign: standardize_naming
+  test: ab_test_creatives
+  a/b: ab_test_creatives
+  ab test: ab_test_creatives
+  optimiz: optimize_targeting
+  expand: expand_reach
+  reduce: reduce_budget
+  shift: shift_budget
+  duplicate: duplicate_campaign
+  retarget: retarget_audience
+  exclude: exclude_audience
+  update creative: update_creative_assets
+  refresh creative: refresh_creative_assets
+  launch: launch_new_campaign

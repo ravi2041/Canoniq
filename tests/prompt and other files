@@ -1,0 +1,197 @@
+
+"""
+I need a prompt for my llm stating that an individual platform for example facebook, youtube, linkedin, tiktok, campaign manager (cm360) contains metrics
+ like cost, impressions, clicks, video views and campaign manager conversion report or table contains conversion data for all the platforms.
+ Meaning campaign manager produces two types of report- one contains standard metrics like cost, spend, impressions etc and other report which we call
+  conversion report which contains total conversions for all the platforms. When generating report or generating sql for  report then agent needs to keep
+  in mind that campaign name and site is important when generating performance reports or for question like this - "give me top performing campaigns for
+   last 6 months across all platforms. Choose metric which you think is important. Try to add all metrics for comparison. ". In this situation converion
+   calculated is not for cm360. infact CM360, or Campaign Manager 360, is a web-based ad management platform from Google Marketing Platform that
+    advertisers and agencies use to manage, measure, and optimize their digital advertising campaigns across multiple channels. It provides tools for
+     ad serving, creative management, performance reporting, attribution, and ad verification, integrating with other Google products like
+      Google Analytics, Display & Video 360, and Search Ads 360 to offer a comprehensive view of campaign performance. Site column tells that
+       which paltforms or site has done good job or performed well. not cm 360. Its just a container.
+"""
+
+sql_code = """
+
+            -- Params: {{start_date}}, {{end_date}}, {{dims}} e.g. 'LOWER(campaign) AS campaign, site'
+            WITH
+            fb AS (
+              SELECT {{dims}},
+                     SUM(impressions) impressions, SUM(clicks) clicks, SUM(cost) spend,
+                     0 total_conversions
+              FROM facebook_data
+              WHERE date BETWEEN {{start_date}} AND {{end_date}}
+              GROUP BY {{dims}}
+            ),
+            yt AS (
+              SELECT {{dims}},
+                     SUM(impressions) impressions, SUM(clicks) clicks, SUM(cost) spend,
+                     0 total_conversions
+              FROM youtube_data
+              WHERE date BETWEEN {{start_date}} AND {{end_date}}
+              GROUP BY {{dims}}
+            ),
+            tt AS (
+              SELECT {{dims}},
+                     SUM(impressions) impressions, SUM(clicks) clicks, SUM(cost) spend,
+                     0 total_conversions
+              FROM tiktok_data
+              WHERE date BETWEEN {{start_date}} AND {{end_date}}
+              GROUP BY {{dims}}
+            ),
+            cm AS (
+              SELECT {{dims}},
+                     0 impressions, 0 clicks, 0 spend,
+                     SUM(conversions) total_conversions
+              FROM cm360_conversion_data
+              WHERE date BETWEEN {{start_date}} AND {{end_date}}
+              GROUP BY {{dims}}
+            ),
+            stacked AS (
+              SELECT * FROM fb
+              UNION ALL SELECT * FROM yt
+              UNION ALL SELECT * FROM tt
+              UNION ALL SELECT * FROM cm
+            )
+            SELECT {{dims}},
+                   SUM(impressions) AS impressions,
+                   SUM(clicks)      AS clicks,
+                   SUM(spend)       AS spend,
+                   SUM(total_conversions) AS conversions,
+                   SUM(clicks) / NULLIF(SUM(impressions), 0)      AS ctr,
+                   SUM(spend)  / NULLIF(SUM(clicks), 0)           AS cpc,
+                   SUM(total_conversions) / NULLIF(SUM(clicks), 0) AS cvr,
+                   SUM(spend)  / NULLIF(SUM(total_conversions), 0) AS cpa
+            FROM stacked
+            GROUP BY {{dims}};
+
+            """
+
+# ---------- Helper: build system prompt + persist memory artifacts ----------
+# def build_system_prompt(state: AgentState) -> Dict[str, Any]:
+#     """
+#     Builds the system message content using short-term + long-term + semantic memories.
+#     Also persists artifacts for debugging.
+#     """
+#     run_id = state.get("run_id")
+#
+#     # Top-K semantic memories from DB
+#     semantic_memories = load_from_db_memory(state["question"], user_id="global", top_k=5) or []
+#
+#     # Heuristic memory (short-term + long-term in state)
+#     memory_context = get_relevant_memory(state) or []
+#
+#     # Merge semantic memories in (kept separate artifacts too)
+#     for mem in semantic_memories:
+#         memory_context.append({
+#             "question": mem.get("question"),
+#             "sql": mem.get("sql"),
+#             "narrative": mem.get("narrative"),
+#             "keywords": mem.get("keywords"),
+#             "similarity": "EMBEDDING_ARRAY"  # placeholder
+#         })
+#
+#     debug_memory_context = sanitize_for_json(memory_context)
+#
+#     # ---- Artifacts for observability
+#     if run_id:
+#         save_json_artifact(run_id, "semantic_memories", semantic_memories)
+#         save_json_artifact(run_id, "memory_context", debug_memory_context)
+#
+#     # ---- Build content
+#     content = (
+#
+#         """
+#         You are an intelligent analytics agent for SQL and business data.
+#         Your role is to generate correct SQL and concise marketing performance reports.
+#
+#         Core context:
+#         - Each individual platform table (Facebook, YouTube, TikTok, LinkedIn, etc.) contains delivery metrics
+#           (impressions, clicks, cost, video views).
+#         - CM360 produces TWO types of reports:
+#           • Standard performance metrics (cost, impressions, clicks, etc.).
+#           • A CM360 conversions report, which is the **only source of truth for conversions across all platforms**.
+#         - Conversions must always be taken from CM360 conversion data and merged with platform metrics
+#           by date, normalized campaign name, placement name, or creative name.
+#         - The "site" column in CM360 conversions indicates which platform/placement drove the conversion.
+#           CM360 is not a performing platform itself; it is a container for conversion attribution.
+#         - Always add site column which is a true representation of platform.
+#
+#
+#         Rules for SQL generation and reporting:
+#         1. **Joins**
+#            - Never join across multiple platform tables directly. Aggregate each platform separately and UNION ALL if needed.
+#            - The only exception: you may full outer join platform metrics with the CM360 conversion table (by date, campaign name/placement name/creative names/ site names) to combine spend with conversions for CPA/CVR calculations.
+#            - Never use campaign IDs/placement ids/ creative ids/site ids for joins; always use normalized names.
+#            - while combining platforms with cm360 conversion table, always use site column in the result table and for join as well.
+#            - While joining
+#
+#
+#         2. **Metrics**
+#            - CTR = SUM(clicks) / SUM(impressions)
+#            - CPC = SUM(cost) / SUM(clicks)
+#            - CVR = SUM(conversions) / SUM(clicks)   (conversions from CM360 only)
+#            - CPA = SUM(cost) / SUM(conversions)
+#            - Handle division by zero safely.
+#
+#         3. **Report logic**
+#            - Performance report = only when user’s question clearly implies it (“performance report”, “weekly summary”, “how did we do?”, etc.).
+#            - Include top 3–5 KPIs most relevant to the query intent:
+#              • Efficiency focus → CPA, CVR
+#              • Engagement focus → CTR, CPC
+#              • Scale focus → impressions, spend
+#            - Prefer trends (WoW, MoM) only if enough history exists.
+#            - If a metric is missing, omit it and note the limitation.
+#
+#         4. **Data handling**
+#            - Campaign hierarchy: Campaign → Placement → Creative.
+#            - Always aggregate by platform first; then compare across platforms.
+#            - Do not hallucinate fields (e.g., revenue, ROAS, reach). Use impressions as proxy for reach if explicitly asked.
+#            - TikTok, YouTube, Facebook tables do not contain conversions. Never fabricate them.
+#
+#         5. **SQL rules**
+#            - Always apply case-insensitive filtering: use LOWER(column) and LOWER(user_input).
+#            - Use fuzzy matching (`LIKE '%keyword%'`) when user input is partial.
+#            - If query implies sorting (“top”, “highest”, “latest”), add ORDER BY.
+#            - Ensure GROUP BY and ORDER BY in SQL align with what you describe.
+#            - Aggregate large queries by dimensions (campaign, week, month, platform).
+#            - Don’t use unsupported functions in MySQL 8.4.
+#
+#         6. **Memory & heuristics**
+#            - Use conversation memory (short-term, long-term, semantic) to resolve references.
+#            - Apply heuristics (e.g., “top” = highest CTR, CVR, or lowest CPA depending on context).
+#            - Log decisions for learning and memory update.
+#
+#
+#         Q - what is the performance of campaigns across all platforms?
+#         Q - give me top performing campaigns for last 6 months across all platforms. Choose metric which you think is important. Try to add all metrics for comparison.
+#
+#         A -  PERFORMANCE SQL TEMPLATE RULES:
+#             1. Build delivery CTEs for each table (facebook_data, youtube_data, tiktok_data, etc).
+#                - Aggregate impressions, clicks, cost, engagement fields.
+#                - Fill conversion columns with zero.
+#             2. Build a conversion CTE from cm360_conversion_data.
+#                - Aggregate conversions by campaign/site/etc.
+#                - Fill delivery columns with zero.
+#             3. UNION ALL delivery + conversions into a stacked table.
+#             4. Final SELECT re-aggregates and calculates metrics (CTR, CPC, CVR, CPA) using NULLIF for safe division.
+#             5. Never label platform using the table name (e.g., 'Facebook' AS platform).
+#                 Instead, always use the column "site" as the platform dimension.
+#                 - facebook_data, youtube_data, tiktok_data, etc. are storage tables only.
+#                 - The "site" column already contains the correct platform/site name.
+#
+#         """
+#
+#     )
+#
+#     # Persist prompt content for inspection
+#     if run_id:
+#         save_text_artifact(run_id, "system_prompt_for_sql_generation", content, suffix=".md")
+#         app_log("system_prompt_built", run_id=run_id, mem_items=len(debug_memory_context))
+#
+#     # Return a standard chat message dict (in case your chain uses dynamic system messages)
+#     return {"role": "system", "content": content}
+#
+

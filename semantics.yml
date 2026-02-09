@@ -1,0 +1,289 @@
+dialect: mysql
+
+# ---- Physical sources (normalized in a virtual UNION ALL subquery) ----
+sources:
+  - name: cm360_engagement
+    table: cm360_data
+    columns:
+      date: date
+      platform: "'cm360'"
+      advertiser: advertiser
+      product: product
+      campaign_id: campaign_id
+      campaign: campaign
+      site: site
+      placement: placement
+      creative: creative
+      impressions: impressions
+      clicks: clicks
+      spend: cost
+      conversions: NULL
+      video_25: video_25
+      video_50: video_50
+      video_75: video_75
+      video_100: video_100
+      viewable_impression: viewable_impression
+      post_reaction: post_reaction
+      post_engagement: post_engagement
+
+  - name: cm360_conversions
+    table: cm360_conversion_data
+    columns:
+      date: date
+      platform: "'cm360'"
+      advertiser: advertiser
+      product: product
+      campaign_id: campaign_id
+      campaign: campaign
+      site: site
+      placement: placement
+      creative: creative
+      impressions: NULL
+      clicks: NULL
+      spend: NULL
+      conversions: total_conversions
+      video_25: NULL
+      video_50: NULL
+      video_75: NULL
+      video_100: NULL
+      viewable_impression: NULL
+      post_reaction: NULL
+      post_engagement: NULL
+
+  - name: facebook
+    table: facebook_data
+    columns:
+      date: date
+      platform: "'facebook'"
+      advertiser: advertiser
+      product: product
+      campaign_id: campaign_id
+      campaign: campaign
+      site: site
+      placement: placement
+      creative: creative
+      impressions: impressions
+      clicks: clicks
+      spend: cost
+      conversions: NULL
+      video_25: video_25
+      video_50: video_50
+      video_75: video_75
+      video_100: video_100
+      viewable_impression: viewable_impression
+      post_reaction: post_reaction
+      post_engagement: post_engagement
+
+  - name: tiktok
+    table: tiktok_data
+    columns:
+      date: date
+      platform: "'tiktok'"
+      advertiser: advertiser
+      product: product
+      campaign_id: campaign_id
+      campaign: campaign
+      site: site
+      placement: placement
+      creative: creative
+      impressions: impressions
+      clicks: clicks
+      spend: cost
+      conversions: NULL
+      video_25: video_25
+      video_50: video_50
+      video_75: video_75
+      video_100: video_100
+      viewable_impression: viewable_impression
+      post_reaction: post_reaction
+      post_engagement: post_engagement
+
+  - name: youtube
+    table: youtube_data
+    columns:
+      date: date
+      platform: "'youtube'"
+      advertiser: advertiser
+      product: product
+      campaign_id: campaign_id
+      campaign: campaign
+      site: site
+      placement: placement
+      creative: creative
+      impressions: impressions
+      clicks: clicks
+      spend: cost
+      conversions: NULL
+      video_25: video_25
+      video_50: video_50
+      video_75: video_75
+      video_100: video_100
+      viewable_impression: viewable_impression
+      post_reaction: post_reaction
+      post_engagement: post_engagement
+
+
+#default_fact: unified_marketing_fact   # can be a view that unions platforms (not needed with sources)
+
+dimensions:
+  - name: date
+    type: date
+    synonyms: [date, day, calendar date, summary_date]
+    column_map:
+      default: date
+
+  - name: platform
+    type: categorical
+    synonyms: [platform, site, channel, network, media]
+    column_map:
+      campaign_manager: site
+      cm_360: site
+      trade_desk:
+      default: platform
+
+  - name: campaign
+    type: categorical
+    synonyms: [campaign, campaign name, search, campaign_group_name]
+    column_map:
+      google_ads: campaign_name
+      meta_ads: campaign_name
+      dv360: campaign
+      cm_360: campaign
+      trade_desk: campaign
+      linkedIn: campaign_group_name
+      default: campaign
+
+  - name: Placement
+    type: categorical
+    synonyms: [placement, ad_group, media_buy_name, media buy name, ad_set_name, campaign_name, ad_group_name]
+    column_map:
+      google_ads: ad_group_name
+      meta_ads: ad_set_name
+      dv360: line_item_name
+      cm_360: placement
+      trade_desk: ad_group
+      linkedIn: campaign_name
+      default: placement
+
+  - name: creative
+    type: categorical
+    synonyms: [creative, creative_name, creative name, ad_name, creative_type]
+    column_map:
+      google_ads: ad_name
+      meta_ads: ad_name
+      dv360: ad
+      cm_360: creative
+      trade_desk: creative
+      linkedIn: creative_type
+      default: creative
+
+measures:
+  # base measures (direct columns) — with sources we expose canonical columns in the virtual subquery
+  - name: spend
+    synonyms: [spend, cost, media cost, planned_cost, total_spent]
+    type: number
+    agg: SUM
+    expr:
+      google_ads: cost
+      meta_ads: cost
+      dv360: media_cost
+      cm_360: cost
+      trade_desk: cost
+      linkedIn: total_spent
+      default: spend
+
+  - name: clicks
+    synonyms: [clicks, link clicks]
+    type: number
+    agg: SUM
+    expr:
+      google_ads: clicks
+      meta_ads: link_clicks
+      default: clicks
+
+  - name: impressions
+    synonyms: [impressions, views]
+    type: number
+    agg: SUM
+    expr:
+      default: impressions
+
+  - name: conversions
+    synonyms: [conversions, purchases, leads, signups, total_conversions]
+    type: number
+    agg: SUM
+    expr:
+      google_ads: conversions
+      meta_ads: purchases
+      dv360: post_click_conversions
+      default: conversions
+
+  # (Optional) engagement/video measures exposed by your sources; uncomment if you want them in planning
+  - name: video_25
+    synonyms: [video 25, quartile 25, v25]
+    type: number
+    agg: SUM
+    expr: { default: video_25 }
+
+  - name: video_50
+    synonyms: [video 50, quartile 50, v50]
+    type: number
+    agg: SUM
+    expr: { default: video_50 }
+
+  - name: video_75
+    synonyms: [video 75, quartile 75, v75]
+    type: number
+    agg: SUM
+    expr: { default: video_75 }
+
+  - name: video_100
+    synonyms: [video 100, quartile 100, complete, v100]
+    type: number
+    agg: SUM
+    expr: { default: video_100 }
+
+  - name: viewable_impression
+    synonyms: [viewable impressions, viewable_impression]
+    type: number
+    agg: SUM
+    expr: { default: viewable_impression }
+
+  - name: post_reaction
+    synonyms: [reactions, post_reaction]
+    type: number
+    agg: SUM
+    expr: { default: post_reaction }
+
+  - name: post_engagement
+    synonyms: [engagements, post_engagement]
+    type: number
+    agg: SUM
+    expr: { default: post_engagement }
+
+  # derived measures (reference other canonical measures)
+  - name: cpc
+    synonyms: [cpc, cost per click]
+    type: number
+    agg: NONE
+    derived: true
+    formula: "SAFE_DIV(spend, clicks)"
+
+  - name: roas
+    synonyms: [roas, return on ad spend]
+    type: number
+    agg: NONE
+    derived: true
+    requires: [revenue, spend]
+    formula: "SAFE_DIV(revenue, spend)"
+
+  - name: revenue
+    synonyms: [revenue, sales]
+    type: number
+    agg: SUM
+    expr:
+      default: revenue
+
+# optional: helper macros per dialect
+macros:
+  SAFE_DIV: "CASE WHEN {den}=0 OR {den} IS NULL THEN NULL ELSE {num}/{den} END"

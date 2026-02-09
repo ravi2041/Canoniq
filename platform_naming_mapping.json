@@ -1,0 +1,2131 @@
+{
+  "project_name": "Clarity AI",
+  "business_domain": "marketing_analytics",
+  "description": "Unified marketing + ecommerce reporting across FB, GA4, Shopify, CM360 and other platforms",
+
+  "platforms":
+  [
+    { "name": "facebook_ads", "aliases": ["facebook_data","facebook_summary"], "source_type": ["api","database","excel"], "priority": 1, "notes": "Primary source for paid social metrics" },
+    { "name": "ga4", "source_type": ["api","excel"], "priority": 2, "notes": "Fallback web analytics when CM360 not used" },
+    { "name": "shopify", "source_type": ["database","excel"], "priority": 2 },
+    { "name": "cm360", "source_type": ["api","database","excel"], "priority": 3, "notes": "Unified delivery & conversions" },
+    { "name": "dv360", "source_type": ["api","database","excel"], "priority": 3 },
+    { "name": "youtube", "source_type": ["api","database","excel"], "priority": 3, "derived_from": ["trueview_report","dv360_report"] },
+    { "name": "linkedin", "source_type": ["api","database","excel"], "priority": 3 },
+    { "name": "tiktok", "source_type": ["api","database","excel"], "priority": 3 },
+    { "name": "snapchat", "source_type": ["api","database","excel"], "priority": 3 },
+    { "name": "the_trade_desk", "source_type": ["api","database","excel"], "priority": 3 }
+  ],
+
+
+  "canonical_entities": [
+    {
+      "entity_name": "campaign",
+      "description": "Top-level marketing initiative across platforms",
+      "canonical_name": ["campaign_name"],
+      "aliases": ["campaign", "campaign_name", "campaign_group_name"],
+      "platform_mappings": {
+        "facebook_data": ["campaign_name","campaign"],
+        "tiktok_data": ["campaign_name","campaign"],
+        "cm360": ["campaign"],
+        "linkedin": ["creative_type","campaign"],
+        "trueview": ["campaign"],
+        "trade_desk": ["campaign"],
+        "snapchat": ["campaign_name","campaign"]
+      }
+    },
+    {
+      "entity_name": "creative",
+      "canonical_name": "creative_name",
+      "aliases": ["ad_name", "creative", "ad", "creative_type"],
+      "platform_mappings": {
+        "facebook_data": ["ad_name","creative"],
+        "tiktok_data": ["ad_name","creative"],
+        "cm360": ["creative"],
+        "linkedin": ["creative_type","creative"],
+        "trueview": ["ad","creative"],
+        "trade_desk": ["creative"],
+        "snapchat": ["ad_name","creative"]
+    }
+    },
+    {
+      "entity_name": "placement",
+      "canonical_name": "placement_name",
+      "aliases": ["ad_set_name", "adgroup_name", "placement", "campaign_name","line_item","ad_group","adset_name"],
+      "platform_mappings": {
+        "facebook_data": ["ad_set_name","placement"],
+        "tiktok_data": ["adgroup_name","placement"],
+        "cm360": ["placement"],
+        "linkedin": ["campaign_name","placement"],
+        "trueview": ["line_item","placement"],
+        "trade_desk": ["ad_group","placement"],
+        "snapchat": ["adset_name","placement"]
+      }
+      },
+      {
+      "entity_name": "site",
+      "canonical_name": "platform_name",
+      "aliases": ["site","publisher","platform"],
+      "platform_mappings": {
+        "facebook_data": ["site","publisher","platform"],
+        "tiktok_data": ["site","publisher","platform"],
+        "cm360": ["site","publisher","platform"],
+        "linkedin": ["site","publisher","platform"],
+        "trueview": ["site","publisher","platform"],
+        "trade_desk": ["site","publisher","platform"],
+        "snapchat": ["site","publisher","platform"]
+      }
+    }
+
+  ],
+
+  "canonical_metrics": [
+  {
+    "metric_name": "impressions",
+    "description": "Total rendered ad impressions.",
+    "aggregation": "sum",
+    "unit": "count",
+    "platform_mappings": {
+      "facebook_data": ["impressions"],
+      "cm360": ["impressions"],
+      "tiktok": ["impressions"],
+      "youtube": ["impressions"]
+    },
+    "dq_rules": { "min_value": 0 }
+  },
+  {
+    "metric_name": "clicks",
+    "description": "Total ad clicks (platform definition).",
+    "aggregation": "sum",
+    "unit": "count",
+    "platform_mappings": {
+      "facebook_data": ["link_clicks","clicks"],
+      "cm360": ["clicks"],
+      "tiktok": ["clicks"],
+      "youtube": ["clicks"]
+    },
+    "dq_rules": { "min_value": 0 }
+  },
+  {
+    "metric_name": "spend",
+    "description": "Media cost in NZD.",
+    "aggregation": "sum",
+    "unit": "currency_nzd",
+    "platform_mappings": {
+      "facebook_data": ["spend","amount_spent","cost"],
+      "cm360": ["media_cost"],
+      "tiktok": ["spend"],
+      "youtube": ["cost"]
+    },
+    "currency": "NZD",
+    "dq_rules": { "min_value": 0, "suspicious_if_gt": 10000 }
+  },
+  {
+    "metric_name": "ctr",
+    "description": "Click-through rate = clicks / impressions.",
+    "aggregation": "weighted_average",
+    "unit": "ratio",
+    "is_derived": true,
+    "formula": "clicks / nullif(impressions,0)",
+    "depends_on": ["clicks","impressions"],
+    "dq_rules": { "min_value": 0, "max_value": 1 }
+  },
+  {
+    "metric_name": "vtr",
+    "description": "View-through rate = views / impressions (platform-specific ‘view’).",
+    "aggregation": "weighted_average",
+    "unit": "ratio",
+    "is_derived": true,
+    "formula": "views / nullif(impressions,0)",
+    "depends_on": ["views","impressions"]
+  }
+],
+
+
+  "datasets": [
+  {
+    "dataset_name": "facebook_ads_raw",
+    "source_platform": "facebook_data",
+    "description": "Compact template-driven schema inferred from sample export.",
+    "templates": {
+      "column_defaults": {
+        "standardization_rules": [
+          "trim"
+        ]
+      },
+      "metric_defaults": {
+        "semantic_role": "metric",
+        "dq_rules": {
+          "min_value": 0
+        }
+      },
+      "id_defaults": {
+        "semantic_role": "id",
+        "dq_rules": {
+          "not_null": true
+        }
+      },
+      "time_defaults": {
+        "semantic_role": "time",
+        "dq_rules": {
+          "not_null": true,
+          "max_lag_days": 2
+        }
+      }
+    },
+    "alias_rules": {
+      "canonical_metrics": {
+        "spend": [
+          "spend",
+          "amount_spent",
+          "cost"
+        ],
+        "impressions": [
+          "impressions",
+          "impression_count"
+        ],
+        "clicks": [
+          "link_clicks",
+          "clicks"
+        ],
+        "views": [
+          "views",
+          "video_views",
+          "thruplays"
+        ]
+      },
+      "canonical_entities": {
+        "campaign_name": [
+          "campaign",
+          "campaign_name"
+        ],
+        "placement_name": [
+          "ad_set_name",
+          "adset_name",
+          "adgroup_name"
+        ],
+        "creative_name": [
+          "ad_name",
+          "creative"
+        ]
+      }
+    },
+    "tables": [
+      {
+          "table_name": "facebook_data",
+          "table_type": "fact",
+          "grain": "ad_day",
+          "primary_key": [
+            "ad_id",
+            "summary_date"
+          ],
+          "use_templates": true,
+          "columns_compact": [
+            {
+              "column_name": "account",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "campaign_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "campaign_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "campaign_objective",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "ad_set_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "ad_set_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "ad_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "ad_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "summary_date",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "publisher_platform",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "ad_set_lifetime_budget",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "adset_start_date",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "adset_end_date",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "adset_status",
+              "semantic_role": "flag"
+            },
+            {
+              "column_name": "cost",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "link_clicks",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_watch_25",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_watch_50",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_watch_75",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_watch_100",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "post_reactions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "post_engagements",
+              "semantic_role": "metric"
+            }
+          ],
+          "derived_metrics": [
+            {
+              "column_name": "ctr",
+              "formula": "link_clicks / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpc",
+              "formula": "spend / nullif(link_clicks,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpm",
+              "formula": "(spend * 1000) / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            }
+          ]
+      }
+    ]
+  },
+    {
+      "dataset_name": "cm360_data",
+      "source_platform": "cm360",
+      "description": "Campaign manager platform basically used for managing all campaigns across multiple platforms.",
+      "templates": {
+        "column_defaults": {
+          "name_rule": [
+            "trim"
+          ],
+          "dq_rules": {}
+        },
+        "metric_defaults": {
+          "semantic_role": "metric",
+          "dq_rules": {
+            "min_value": 0
+          }
+        },
+        "id_defaults": {
+          "semantic_role": "id",
+          "dq_rules": {
+            "not_null": true
+          }
+        }
+      },
+      "tables": [
+        {
+          "table_name": "cm360_data",
+          "table_type": "fact",
+          "grain": "placement_day",
+          "primary_key": [],
+          "columns_compact": [
+            {
+              "column_name": "date",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "advertiser",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "advertiser_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "campaign",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "campaign_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "site",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "site_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "placement",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "placement_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "creative",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "creative_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "clicks",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "active_view_viewable_impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "active_view_measureable_impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "active_view_eligible_impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_first_quartile",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "video_third_quartile",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "video_mid_quartile",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "video_completion",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "cost",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "media_cost",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "planned_cost_net",
+              "semantic_role": "metric"
+            }
+          ],
+          "use_templates": true
+        }
+      ]
+    },
+    {
+      "dataset_name": "linkedin_ads",
+      "source_platform": "linkedin",
+      "description": "Schema inferred is LinkedIn data",
+      "templates": {
+        "column_defaults": {
+          "standardization_rules": [
+            "trim"
+          ]
+        },
+        "metric_defaults": {
+          "semantic_role": "metric",
+          "dq_rules": {
+            "min_value": 0
+          }
+        },
+        "id_defaults": {
+          "semantic_role": "id",
+          "dq_rules": {
+            "not_null": true
+          }
+        },
+        "time_defaults": {
+          "semantic_role": "time",
+          "dq_rules": {
+            "not_null": true,
+            "max_lag_days": 2
+          }
+        }
+      },
+      "alias_rules": {
+        "canonical_metrics": {
+          "spend": [
+            "spend",
+            "cost_in_local_currency",
+            "amount_spent"
+          ],
+          "impressions": [
+            "impressions",
+            "impression_count"
+          ],
+          "clicks": [
+            "clicks",
+            "click_count"
+          ],
+          "leads": [
+            "leads",
+            "lead_generation",
+            "lead_form_submits"
+          ],
+          "ctr": [
+            "ctr",
+            "click_through_rate"
+          ],
+          "cpc": [
+            "cpc",
+            "cost_per_click"
+          ],
+          "cpm": [
+            "cpm",
+            "cost_per_thousand_impressions"
+          ]
+        },
+        "canonical_entities": {
+          "campaign_name": [
+            "campaign",
+            "campaign_name",
+            "campaign_title"
+          ],
+          "creative_name": [
+            "creative",
+            "creative_name",
+            "ad_name"
+          ],
+          "placement_name": [
+            "ad_group_name",
+            "placement",
+            "adset_name"
+          ]
+        }
+      },
+      "tables": [
+        {
+          "table_name": "linkedin_data",
+          "table_type": "fact",
+          "grain": "ad_day",
+          "primary_key": [
+            "ad_id",
+            "date"
+          ],
+          "use_templates": true,
+          "columns_compact": [
+            {
+              "column_name": "date",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "account_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "account_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "campaign_group_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "campaign_group_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "campaign_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "campaign_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "creative_type",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "creative_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "clicks",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "landing_page_clicks",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "opens",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "lead_generation_mail_contact_info_shares",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "lead_from_opens",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_view_at_25",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "video_view_at_50",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "video_view_at_75",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "video_completitions",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "total_spent",
+              "semantic_role": "category"
+            }
+          ],
+          "derived_metrics": [
+            {
+              "column_name": "ctr",
+              "formula": "clicks / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpc",
+              "formula": "spend / nullif(clicks,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpm",
+              "formula": "(spend * 1000) / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset_name": "snapchat_ads_raw",
+      "source_platform": "snapchat",
+      "description": "Compact schema inferred from Snapchat export sheet 'Sheet1'",
+      "templates": {
+        "column_defaults": {
+          "standardization_rules": [
+            "trim"
+          ]
+        },
+        "metric_defaults": {
+          "semantic_role": "metric",
+          "dq_rules": {
+            "min_value": 0
+          }
+        },
+        "id_defaults": {
+          "semantic_role": "id",
+          "dq_rules": {
+            "not_null": true
+          }
+        },
+        "time_defaults": {
+          "semantic_role": "time",
+          "dq_rules": {
+            "not_null": true,
+            "max_lag_days": 2
+          }
+        }
+      },
+      "alias_rules": {
+        "canonical_metrics": {
+          "spend": [
+            "spend",
+            "amount_spent",
+            "cost",
+            "media_spend"
+          ],
+          "impressions": [
+            "impressions",
+            "impression_count"
+          ],
+          "swipes": [
+            "swipes",
+            "clicks"
+          ],
+          "views": [
+            "video_views",
+            "views",
+            "thruplays"
+          ],
+          "installs": [
+            "installs",
+            "app_installs"
+          ],
+          "conversions": [
+            "conversions",
+            "purchases",
+            "signups"
+          ]
+        },
+        "canonical_entities": {
+          "campaign_name": [
+            "campaign",
+            "campaign_name"
+          ],
+          "adset_name": [
+            "adset_name",
+            "ad_group_name",
+            "placement"
+          ],
+          "ad_name": [
+            "ad_name",
+            "creative_name",
+            "ad_title"
+          ]
+        }
+      },
+      "tables": [
+        {
+          "table_name": "snapchat_data",
+          "table_type": "fact",
+          "grain": "ad_day",
+          "primary_key": [
+            "ad_id",
+            "date"
+          ],
+          "use_templates": true,
+          "columns_compact": [
+            {
+              "column_name": "date_start",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "date_end",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "account_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "account_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "campaign_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "campaign_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "campaign_lifetime_budget",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "campaign_daily_budget",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "campaign_objective",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "campaign_buytype",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "adset_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "adset_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "adset_lifetime_budget",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "adset_daily_budget",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "adset_goal",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "ad_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "ad_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "ad_type",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "amount_spend",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "clicks",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "app_total_install",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "app_ios_install",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "app_android_install",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_views_p25",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_views_p50",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_views_75",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_views_completed",
+              "semantic_role": "metric"
+            }
+          ],
+          "derived_metrics": [
+            {
+              "column_name": "ctr",
+              "formula": "swipes / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpc",
+              "formula": "spend / nullif(swipes,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpm",
+              "formula": "(spend * 1000) / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset_name": "tiktok_ads_raw",
+      "source_platform": "tiktok",
+      "description": "Compact schema inferred from TikTok export sheet 'Sheet1'",
+      "templates": {
+        "column_defaults": {
+          "standardization_rules": [
+            "trim"
+          ]
+        },
+        "metric_defaults": {
+          "semantic_role": "metric",
+          "dq_rules": {
+            "min_value": 0
+          }
+        },
+        "id_defaults": {
+          "semantic_role": "id",
+          "dq_rules": {
+            "not_null": true
+          }
+        },
+        "time_defaults": {
+          "semantic_role": "time",
+          "dq_rules": {
+            "not_null": true,
+            "max_lag_days": 2
+          }
+        }
+      },
+      "alias_rules": {
+        "canonical_metrics": {
+          "spend": [
+            "spend",
+            "amount_spent",
+            "cost",
+            "ad_spend"
+          ],
+          "impressions": [
+            "impressions",
+            "impression_count"
+          ],
+          "clicks": [
+            "clicks",
+            "click_count"
+          ],
+          "views": [
+            "views",
+            "video_views",
+            "thruplays"
+          ],
+          "installs": [
+            "installs",
+            "app_installs"
+          ],
+          "conversions": [
+            "conversions",
+            "purchases",
+            "signups",
+            "add_to_cart"
+          ]
+        },
+        "canonical_entities": {
+          "campaign_name": [
+            "campaign",
+            "campaign_name"
+          ],
+          "adgroup_name": [
+            "adgroup_name",
+            "ad_set_name",
+            "adgroup"
+          ],
+          "creative_name": [
+            "ad_name",
+            "creative_name"
+          ]
+        }
+      },
+      "tables": [
+        {
+          "table_name": "tiktok_data",
+          "table_type": "fact",
+          "grain": "ad_day",
+          "primary_key": [
+            "ad_id",
+            "date"
+          ],
+          "use_templates": true,
+          "columns_compact": [
+            {
+              "column_name": "stat_time_day",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "advertiser_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "advertiser_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "campaign_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "campaign_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "campaign_budget",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "adgroup_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "adgroup_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "budget",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "ad_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "ad_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "ad_text",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "placement_type",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "spend",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "clicks",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "conversion",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_play_actions",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "video_watched_2s",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "video_watched_6s",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "engaged_view",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "engaged_view_15s",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_views_p100",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_views_p75",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_views_p50",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_views_p25",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "average_video_play",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "follows",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "likes",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "comments",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "shares",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "profile_visits",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "profile_visits_rate",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "clicks_on_music_disc",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "real_time_conversion",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "app_install",
+              "semantic_role": "metric"
+            }
+          ],
+          "derived_metrics": [
+            {
+              "column_name": "ctr",
+              "formula": "clicks / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpc",
+              "formula": "spend / nullif(clicks,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpm",
+              "formula": "(spend * 1000) / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset_name": "trade_desk_ads_raw",
+      "source_platform": "the_trade_desk",
+      "description": "Compact schema inferred from The Trade Desk export sheet 'Sheet1'",
+      "templates": {
+        "column_defaults": {
+          "standardization_rules": [
+            "trim"
+          ]
+        },
+        "metric_defaults": {
+          "semantic_role": "metric",
+          "dq_rules": {
+            "min_value": 0
+          }
+        },
+        "id_defaults": {
+          "semantic_role": "id",
+          "dq_rules": {
+            "not_null": true
+          }
+        },
+        "time_defaults": {
+          "semantic_role": "time",
+          "dq_rules": {
+            "not_null": true,
+            "max_lag_days": 2
+          }
+        }
+      },
+      "alias_rules": {
+        "canonical_metrics": {
+          "spend": [
+            "spend",
+            "media_cost",
+            "cost",
+            "total_spend"
+          ],
+          "impressions": [
+            "impressions",
+            "impression_count"
+          ],
+          "clicks": [
+            "clicks",
+            "click_count"
+          ],
+          "views": [
+            "views",
+            "video_views"
+          ],
+          "conversions": [
+            "conversions",
+            "total_conversions",
+            "post_click_conversions"
+          ],
+          "revenue": [
+            "revenue",
+            "sales_value",
+            "purchase_value"
+          ]
+        },
+        "canonical_entities": {
+          "campaign_name": [
+            "campaign",
+            "campaign_name"
+          ],
+          "adgroup_name": [
+            "adgroup_name",
+            "line_item_name",
+            "placement"
+          ],
+          "creative_name": [
+            "ad_name",
+            "creative_name"
+          ]
+        }
+      },
+      "tables": [
+        {
+          "table_name": "trade_desk_data",
+          "table_type": "fact",
+          "grain": "ad_day",
+          "primary_key": [
+            "ad_id",
+            "date"
+          ],
+          "use_templates": true,
+          "columns_compact": [
+            {
+              "column_name": "ad_group",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "ad_group_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "advertiser",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "advertiser_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "campaign",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "campaign_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "creative",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "creative_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "date",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "advertiser_currency",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "cost",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "clicks",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "ias_views_first",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "ias_views_mid",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "ias_views_third",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "ias_view_completion",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "impressions",
+              "semantic_role": "metric"
+            }
+          ],
+          "derived_metrics": [
+            {
+              "column_name": "ctr",
+              "formula": "clicks / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpc",
+              "formula": "spend / nullif(clicks,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpm",
+              "formula": "(spend * 1000) / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "roas",
+              "formula": "revenue / nullif(spend,0)",
+              "aggregation": "weighted_average"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset_name": "trueview_ads_raw",
+      "source_platform": "trueview",
+      "description": "Compact schema inferred from TrueView export sheet 'Sheet1'",
+      "templates": {
+        "column_defaults": {
+          "standardization_rules": [
+            "trim"
+          ]
+        },
+        "metric_defaults": {
+          "semantic_role": "metric",
+          "dq_rules": {
+            "min_value": 0
+          }
+        },
+        "id_defaults": {
+          "semantic_role": "id",
+          "dq_rules": {
+            "not_null": true
+          }
+        },
+        "time_defaults": {
+          "semantic_role": "time",
+          "dq_rules": {
+            "not_null": true,
+            "max_lag_days": 2
+          }
+        }
+      },
+      "alias_rules": {
+        "canonical_metrics": {
+          "spend": [
+            "spend",
+            "cost",
+            "amount_spent"
+          ],
+          "impressions": [
+            "impressions",
+            "impression_count"
+          ],
+          "views": [
+            "views",
+            "video_views",
+            "earned_views"
+          ],
+          "clicks": [
+            "clicks",
+            "click_throughs"
+          ],
+          "video_quartile_25": [
+            "video_views_25",
+            "views_25",
+            "quartile_25"
+          ],
+          "video_quartile_50": [
+            "video_views_50",
+            "views_50",
+            "quartile_50"
+          ],
+          "video_quartile_75": [
+            "video_views_75",
+            "views_75",
+            "quartile_75"
+          ],
+          "video_quartile_100": [
+            "video_views_100",
+            "views_100",
+            "quartile_100"
+          ],
+          "conversions": [
+            "conversions",
+            "all_conversions"
+          ]
+        },
+        "canonical_entities": {
+          "campaign_name": [
+            "campaign",
+            "campaign_name"
+          ],
+          "adgroup_name": [
+            "ad_group",
+            "adgroup_name",
+            "line_item_name"
+          ],
+          "creative_name": [
+            "ad_name",
+            "creative_name",
+            "video_title"
+          ]
+        }
+      },
+      "tables": [
+        {
+          "table_name": "youtube_data",
+          "table_type": "fact",
+          "grain": "ad_day",
+          "primary_key": [
+            "ad_id",
+            "date"
+          ],
+          "use_templates": true,
+          "columns_compact": [
+            {
+              "column_name": "advertiser_currency",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "advertiser",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "advertiser_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "date",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "insertion_order",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "insertion_order_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "line_item",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "line_item_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "adgroup",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "adgroup_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "ad",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "ad_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "impressions",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "views",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "revenue",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "cost",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "video_first_quartile",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "video_mid_quartile",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "video_third_quartile",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "video_completion",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "clicks",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "viewable_imp",
+              "semantic_role": "metric"
+            }
+          ],
+          "derived_metrics": [
+            {
+              "column_name": "ctr",
+              "formula": "clicks / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpc",
+              "formula": "spend / nullif(clicks,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpm",
+              "formula": "(spend * 1000) / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpv",
+              "formula": "spend / nullif(views,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "vtr",
+              "formula": "views / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset_name": "google_search_ads_raw",
+      "source_platform": "google_search_ads",
+      "description": "Compact schema inferred from Google Search Ads export sheet 'Sheet1'",
+      "templates": {
+        "column_defaults": {
+          "standardization_rules": [
+            "trim"
+          ]
+        },
+        "metric_defaults": {
+          "semantic_role": "metric",
+          "dq_rules": {
+            "min_value": 0
+          }
+        },
+        "id_defaults": {
+          "semantic_role": "id",
+          "dq_rules": {
+            "not_null": true
+          }
+        },
+        "time_defaults": {
+          "semantic_role": "time",
+          "dq_rules": {
+            "not_null": true,
+            "max_lag_days": 2
+          }
+        }
+      },
+      "alias_rules": {
+        "canonical_metrics": {
+          "spend": [
+            "spend",
+            "cost",
+            "amount_spent"
+          ],
+          "impressions": [
+            "impressions",
+            "impression_count"
+          ],
+          "clicks": [
+            "clicks",
+            "click_throughs"
+          ],
+          "conversions": [
+            "conversions",
+            "all_conversions"
+          ],
+          "conversion_value": [
+            "conv_value",
+            "conversion_value"
+          ],
+          "ctr": [
+            "ctr",
+            "click_through_rate"
+          ],
+          "cpc": [
+            "cpc",
+            "cost_per_click"
+          ],
+          "cpm": [
+            "cpm",
+            "cost_per_thousand_impressions"
+          ]
+        },
+        "canonical_entities": {
+          "campaign_name": [
+            "campaign",
+            "campaign_name"
+          ],
+          "adgroup_name": [
+            "ad_group",
+            "adgroup_name"
+          ],
+          "creative_name": [
+            "ad_name",
+            "headline",
+            "creative"
+          ]
+        }
+      },
+      "tables": [
+        {
+          "table_name": "google_ads_data",
+          "table_type": "fact",
+          "grain": "ad_day",
+          "primary_key": [
+            "ad_id",
+            "date"
+          ],
+          "use_templates": true,
+          "columns_compact": [
+            {
+              "column_name": "account",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "campaign_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "campaign_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "date",
+              "semantic_role": "time"
+            },
+            {
+              "column_name": "ad_group_id",
+              "semantic_role": "id"
+            },
+            {
+              "column_name": "ad_group_name",
+              "semantic_role": "name"
+            },
+            {
+              "column_name": "keyword",
+              "semantic_role": "category"
+            },
+            {
+              "column_name": "cost",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "impression",
+              "semantic_role": "metric"
+            },
+            {
+              "column_name": "clicks",
+              "semantic_role": "metric"
+            }
+          ],
+          "derived_metrics": [
+            {
+              "column_name": "ctr",
+              "formula": "clicks / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpc",
+              "formula": "spend / nullif(clicks,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "cpm",
+              "formula": "(spend * 1000) / nullif(impressions,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "conv_rate",
+              "formula": "conversions / nullif(clicks,0)",
+              "aggregation": "weighted_average"
+            },
+            {
+              "column_name": "roas",
+              "formula": "conversion_value / nullif(spend,0)",
+              "aggregation": "weighted_average"
+            }
+          ]
+        }
+      ]
+    }
+
+  ],
+
+  "column_alias_library": [
+  {
+    "canonical_name": "spend",
+    "aliases": ["spend","amount_spent","cost","media_cost","total_spend","ad_spend","cost_in_local_currency"],
+    "preferred_unit": "nzd",
+    "description": "Total media investment in local currency."
+  },
+  {
+    "canonical_name": "impressions",
+    "aliases": ["impressions","impression_count","impr","impression"],
+    "preferred_unit": "count",
+    "description": "Number of ad impressions delivered."
+  },
+  {
+    "canonical_name": "clicks",
+    "aliases": ["clicks","link_clicks","click_count","click_throughs","swipes"],
+    "preferred_unit": "count",
+    "description": "Total click actions (Snapchat 'swipes' treated as clicks)."
+  },
+  {
+    "canonical_name": "views",
+    "aliases": ["views","video_views","earned_views","thruplays"],
+    "preferred_unit": "count",
+    "description": "Video views per platform definition."
+  },
+  {
+    "canonical_name": "leads",
+    "aliases": ["leads","lead_generation","lead_form_submits","lead_from_opens","lead_generation_mail_contact_info_shares"],
+    "preferred_unit": "count",
+    "description": "Lead actions captured via platform lead gen."
+  },
+  {
+    "canonical_name": "conversions",
+    "aliases": ["conversions","all_conversions","total_conversions","post_click_conversions","purchases","signups","add_to_cart"],
+    "preferred_unit": "count",
+    "description": "Conversion events as defined per platform."
+  },
+  {
+    "canonical_name": "installs",
+    "aliases": ["installs","app_installs"],
+    "preferred_unit": "count",
+    "description": "App install events."
+  },
+  {
+    "canonical_name": "revenue",
+    "aliases": ["revenue","sales_value","purchase_value","conversion_value","conv_value"],
+    "preferred_unit": "nzd",
+    "description": "Attributed revenue or conversion value."
+  },
+
+  {
+    "canonical_name": "ctr",
+    "aliases": ["ctr","click_through_rate"],
+    "preferred_unit": "ratio",
+    "description": "Click-through rate (clicks / impressions)."
+  },
+  {
+    "canonical_name": "cpc",
+    "aliases": ["cpc","cost_per_click"],
+    "preferred_unit": "nzd_per_click",
+    "description": "Average cost per click."
+  },
+  {
+    "canonical_name": "cpm",
+    "aliases": ["cpm","cost_per_thousand_impressions"],
+    "preferred_unit": "nzd_per_1000_impr",
+    "description": "Cost per 1,000 impressions."
+  },
+  {
+    "canonical_name": "roas",
+    "aliases": ["roas","return_on_ad_spend"],
+    "preferred_unit": "ratio",
+    "description": "Revenue divided by spend."
+  },
+  {
+    "canonical_name": "cpv",
+    "aliases": ["cpv","cost_per_view"],
+    "preferred_unit": "nzd_per_view",
+    "description": "Average cost per video view."
+  },
+  {
+    "canonical_name": "vtr",
+    "aliases": ["vtr","view_through_rate"],
+    "preferred_unit": "ratio",
+    "description": "Views divided by impressions."
+  },
+
+  {
+    "canonical_name": "video_quartile_25",
+    "aliases": ["video_watch_25","views_25","quartile_25","video_views_25"],
+    "preferred_unit": "count",
+    "description": "25% video completion events."
+  },
+  {
+    "canonical_name": "video_quartile_50",
+    "aliases": ["video_watch_50","views_50","quartile_50","video_views_50"],
+    "preferred_unit": "count",
+    "description": "50% video completion events."
+  },
+  {
+    "canonical_name": "video_quartile_75",
+    "aliases": ["video_watch_75","views_75","quartile_75","video_views_75"],
+    "preferred_unit": "count",
+    "description": "75% video completion events."
+  },
+  {
+    "canonical_name": "video_quartile_100",
+    "aliases": ["video_watch_100","views_100","quartile_100","video_views_100"],
+    "preferred_unit": "count",
+    "description": "100% video completion events."
+  },
+
+  {
+    "canonical_name": "campaign_name",
+    "aliases": ["campaign","campaign_name","campaign_title","cm_campaign","session_campaign","placementCampaignName"],
+    "preferred_unit": null,
+    "description": "Canonical campaign label across platforms."
+  },
+  {
+    "canonical_name": "adgroup_name",
+    "aliases": ["ad_group_name","adgroup_name","adset_name","ad_set_name","line_item_name","placement"],
+    "preferred_unit": null,
+    "description": "Ad set / ad group / line item label."
+  },
+  {
+    "canonical_name": "creative_name",
+    "aliases": ["ad_name","creative_name","ad_title","video_title","creative"],
+    "preferred_unit": null,
+    "description": "Ad/creative display name."
+  },
+  {
+    "canonical_name": "date",
+    "aliases": ["date","summary_date","stat_time_day","date_start","date_end"],
+    "preferred_unit": "date",
+    "description": "Reporting date (start/end included for platform exports)."
+  },
+  {
+    "canonical_name": "platform_name",
+    "aliases": ["platform","publisher","site","publisher_platform"],
+    "preferred_unit": null,
+    "description": "Publisher/platform/site label."
+  },
+  {
+    "canonical_name": "account_name",
+    "aliases": ["account","account_name","advertiser","advertiser_name"],
+    "preferred_unit": null,
+    "description": "Account/advertiser display name."
+  }
+],
+
+
+  "naming_rules": [
+  {
+    "rule_name": "clarity_naming_rules",
+    "pattern": "<Advertiser>-<Product>-<Objective>-<Channel>-<Geo?>-<Month>-<Year>-<Suffix?>",
+    "delimiters": ["-", "_", "|"],
+    "case_normalization": "title",
+    "required_segments": ["Advertiser", "Objective", "Channel", "Month", "Year"],
+    "optional_segments": ["Geo", "Suffix"],
+    "fuzzy_segments": ["Product", "Channel", "Geo"],
+
+    "segment_definitions": {
+      "Advertiser": { "min_len": 2, "max_len": 40 },
+      "Product":    { "min_len": 2, "max_len": 40 },
+      "Objective":  { "allowed": ["Awareness","Traffic","Leads","Sales","Install","Engagement","VideoViews","Conversions"] },
+      "Channel":    {
+        "synonyms": {
+          "Facebook": ["fb","meta","facebook_ads","facebook_data"],
+          "Instagram": ["ig","instagram"],
+          "YouTube": ["yt","trueview","youtube_ads"],
+          "TikTok": ["tt","tiktok_ads"],
+          "LinkedIn": ["li","linkedin_ads"],
+          "Snapchat": ["sc","snap","snapchat_ads"],
+          "DV360": ["dv","dv360","display_video_360"],
+          "CM360": ["cm","cm360","campaign_manager"]
+        }
+      },
+      "Geo":       { "regex": "^[A-Z]{2}(-[A-Z]{2})?$", "example": "NZ or AU-NSW" },
+      "Month":     { "type": "month", "formats": ["MMM","MMMM","MM"], "locale": "en" },
+      "Year":      { "regex": "^(20)\\d{2}$" },
+      "Suffix":    { "max_len": 24, "allow_digits": true }
+    },
+
+    "auto_infer": {
+      "Year":  { "from_column": "date", "format": "YYYY" },
+      "Month": { "from_column": "date", "format": "MMM" },
+      "Channel": { "from_column_any": ["publisher_platform","site","platform"], "use_synonyms": true }
+    },
+
+    "special_cases": [
+      {
+        "if_name_contains_any": ["INSTALL","APP INSTALL"],
+        "set": { "Objective": "Install" }
+      },
+      {
+        "if_channel_in": ["TrueView","YouTube"],
+        "set": { "Channel": "YouTube" }
+      }
+    ],
+
+    "validation": {
+      "max_length": 120,
+      "no_double_delimiters": true,
+      "blocklist": ["test","dummy","sample"],
+      "require_unique_within": ["Advertiser","Month","Year","Channel","Product"],
+      "enforce_order": true
+    },
+
+    "formatting": {
+      "segment_separator": "-",
+      "collapse_whitespace": true,
+      "remove_extra_delimiters": true
+    },
+
+    "examples": {
+      "valid":   ["Acme-Sarees-Sales-Facebook-NZ-Nov-2025", "Acme-App-Install-YouTube-AU-Oct-2025-V1"],
+      "invalid": ["Acme--Sales-FB-Nov-25", "TEST-Product-Leads-FB-NZ-Nov-2025"]
+    }
+  }
+],
+
+
+  "join_policies": [
+  {
+    "name": "delivery_union_monthly",
+    "description": "Aggregate each platform separately to month, then UNION ALL into a single delivery set. Never join platforms to each other.",
+    "grain": "month",
+    "delivery_sources": [
+      "facebook_ads_raw.fb_ad_insights",
+      "tiktok_ads_raw.*",
+      "linkedin_ads_raw.*",
+      "snapchat_ads_raw.*",
+      "google_search_ads_raw.*",
+      "trade_desk_ads_raw.*",
+      "trueview_ads_raw.*"
+    ],
+    "rules": {
+      "aggregate_first": true,
+      "date_trunc": "month",
+      "select_columns_order": [
+        "month", "site", "campaign_name", "placement_name", "creative_name",
+        "impressions", "clicks", "cost", "views"
+      ],
+      "fill_missing_fields_with_nulls": true,
+      "explicit_column_lists_in_unions": true,
+      "prohibit_select_star_in_unions": true,
+      "do_not_join_platforms": true
+    },
+    "normalization": {
+      "site": { "lower": true, "trim": true },
+      "campaign_name": { "trim": true, "collapse_spaces": true, "case": "lower" },
+      "placement_name": { "trim": true, "collapse_spaces": true, "case": "lower", "optional": true },
+      "creative_name": { "trim": true, "collapse_spaces": true, "case": "lower", "optional": true }
+    },
+    "output_cte_name": "delivery_union_mth"
+  },
+
+  {
+    "name": "cm360_conversions_monthly",
+    "description": "Monthly conversions-only aggregation from CM360. CM360 is conversion source of truth.",
+    "source_table": "cm360.conversions",
+    "grain": "month",
+    "rules": {
+      "date_trunc": "month",
+      "select_columns_order": [
+        "month", "site", "campaign_name", "placement_name", "creative_name",
+        "conversions"
+      ],
+      "delivery_columns_zeroed": true
+    },
+    "normalization": {
+      "site": { "lower": true, "trim": true },
+      "campaign_name": { "trim": true, "collapse_spaces": true, "case": "lower" },
+      "placement_name": { "trim": true, "collapse_spaces": true, "case": "lower", "optional": true },
+      "creative_name": { "trim": true, "collapse_spaces": true, "case": "lower", "optional": true }
+    },
+    "output_cte_name": "cm360_conv_mth"
+  },
+
+  {
+    "name": "delivery_to_conversions_join",
+    "description": "Only join the unioned delivery CTE to CM360 conversions by normalized names and site.",
+    "left_cte": "delivery_union_mth",
+    "right_cte": "cm360_conv_mth",
+    "join_type": "left",
+    "join_keys": [
+      ["month", "site", "campaign_name"],
+      ["month", "site", "placement_name"],
+      ["month", "site", "creative_name"]
+    ],
+    "key_precedence": "use_first_available_match_in_order",
+    "rules": {
+      "ids_prohibited": true,
+      "require_site_in_join": true,
+      "no_cross_platform_joins": true,
+      "post_join_reaggregate": true,
+      "metric_sequence_required": [
+        "impressions", "clicks", "cost", "views", "conversions",
+        "ctr", "cpc", "cvr", "cpa"
+      ]
+    },
+    "safe_division_patterns": {
+      "ctr": "CASE WHEN SUM(impressions)=0 THEN 0 ELSE SUM(clicks)/SUM(impressions) END",
+      "cpc": "CASE WHEN SUM(clicks)=0 THEN 0 ELSE SUM(cost)/SUM(clicks) END",
+      "cvr": "CASE WHEN SUM(clicks)=0 THEN 0 ELSE SUM(conversions)/SUM(clicks) END",
+      "cpa": "CASE WHEN SUM(conversions)=0 THEN 0 ELSE SUM(cost)/SUM(conversions) END"
+    },
+    "output_cte_name": "perf_joined_mth"
+  },
+
+  {
+    "name": "final_performance_select",
+    "description": "Produce monthly performance with required column order and safe metric calculations.",
+    "source_cte": "perf_joined_mth",
+    "select_columns_order": [
+      "month", "site", "campaign_name", "placement_name", "creative_name",
+      "impressions", "clicks", "cost", "views", "conversions",
+      "ctr", "cpc", "cvr", "cpa"
+    ],
+    "group_by": ["month", "site", "campaign_name", "placement_name", "creative_name"],
+    "order_by": ["month", "site", "campaign_name"]
+  }
+],
+
+
+  "dq_global_rules":
+  {
+
+    "freshness": {
+      "enabled": true,
+      "max_allowed_lag_hours": 48,
+      "overrides_by_source": {
+        "facebook_ads_raw.fb_ad_insights": 24,
+        "google_search_ads_raw.*": 24,
+        "cm360.conversions": 72,
+        "linkedin_ads_raw.*": 72,
+        "tiktok_ads_raw.*": 48,
+        "snapchat_ads_raw.*": 48,
+        "trueview_ads_raw.*": 48,
+        "trade_desk_ads_raw.*": 48,
+        "shopify.shopify_orders": 24
+      }
+    },
+
+    "null_thresholds": {
+      "default_max_null_pct": 10,
+      "by_semantic_role": {
+        "id": 0,
+        "time": 0,
+        "name": 2,
+        "metric": 20
+      },
+      "required_columns": [
+        "site",
+        "date",
+        "campaign_name"
+      ]
+    },
+
+    "duplicate_checks": [
+      { "table": "facebook_ads_raw.fb_ad_insights", "by_columns": ["ad_id", "date"] },
+      { "table": "tiktok_ads_raw.*",                 "by_columns": ["ad_id", "date"] },
+      { "table": "linkedin_ads_raw.*",               "by_columns": ["ad_id", "date"] },
+      { "table": "snapchat_ads_raw.*",               "by_columns": ["ad_id", "date"] },
+      { "table": "google_search_ads_raw.*",          "by_columns": ["ad_id", "date"] },
+      { "table": "trade_desk_ads_raw.*",             "by_columns": ["ad_id", "date"] },
+      { "table": "trueview_ads_raw.*",               "by_columns": ["ad_id", "date"] },
+      { "table": "cm360.conversions",                "by_columns": ["date","site","campaign_name","placement_name","creative_name"] },
+      { "table": "shopify.shopify_orders",           "by_columns": ["order_id"] }
+    ],
+
+    "metric_guards": {
+      "non_negative_metrics": ["impressions","clicks","views","spend","conversions","leads","installs","conversion_value"],
+      "bounded_rates": [
+        { "metric": "ctr", "min": 0, "max": 1 },
+        { "metric": "cvr", "min": 0, "max": 1 }
+      ],
+      "derived_minimums": [
+        { "metric": "cpc", "min": 0 },
+        { "metric": "cpm", "min": 0 },
+        { "metric": "cpa", "min": 0 },
+        { "metric": "roas", "min": 0 }
+      ]
+    },
+
+    "schema_drift": {
+      "enabled": true,
+      "fail_on_missing_columns": true,
+      "warn_on_new_columns": true
+    },
+
+    "union_contract": {
+      "require_explicit_column_lists": true,
+      "column_order": ["month_or_date","site","campaign_name","placement_name","creative_name","impressions","clicks","spend","views","conversions"],
+      "prohibit_select_star": true
+    },
+
+    "join_integrity": {
+      "cm360_conversions_is_source_of_truth": true,
+      "require_site_in_join": true,
+      "prohibit_id_joins": true,
+      "allowed_join_keys": ["campaign_name","placement_name","creative_name"],
+      "post_join_reaggregation_required": true,
+      "min_match_rate_pct": 90
+    },
+
+    "distribution_drift": {
+      "enabled": true,
+      "dimensions": ["site","campaign_name"],
+      "measures": ["spend","impressions","clicks"],
+      "baseline": "previous_week",
+      "alert_if_abs_change_gt_pct": 60
+    },
+
+    "currency_checks": {
+      "expected_currency": "NZD",
+      "spend_fields": ["spend","cost","media_cost","amount_spent","total_spend"],
+      "action_on_mismatch": "warn_and_normalize_if_fx_available"
+    },
+
+    "normalization_quality": {
+      "enforce_lower_trim_for": ["site","campaign_name","placement_name","creative_name"],
+      "collapse_multiple_spaces": true
+    }
+  }
+
+}

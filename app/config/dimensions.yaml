@@ -1,0 +1,37 @@
+dimensions:
+  ctr:
+    label: CTR
+    type: percent
+  cvr:
+    label: CVR
+    type: percent
+  cpc:
+    label: CPC
+    type: money
+  cpa:
+    label: CPA
+    type: money
+  roas:
+    label: ROAS
+    type: money
+  revenue:
+    label: REVENUE
+    type: money
+  impressions:
+    label: IMPRESSIONS
+    type: count
+  reach:
+    label: REACH
+    type: count
+  frequency:
+    label: FREQUENCY
+    type: count
+  view rate:
+    label: VIEW_RATE
+    type: percent
+  cpl:
+    label: CPL
+    type: money
+  cpm:
+    label: CPM
+    type: money
