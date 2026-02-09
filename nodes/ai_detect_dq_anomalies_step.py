@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 
 from core.state import AgentState
 from chains.ai_dq_pattern_chain import ai_dq_pattern_chain
-from log_files.observability import app_log
+from app.observability.observability import app_log
 
 PATTERN_MEMORY_FILE = "dq_pattern_memory.json"
 

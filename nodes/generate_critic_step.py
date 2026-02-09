@@ -2,7 +2,7 @@
 import re
 from typing import Dict, Any
 from chains.get_critic_chain import get_critic_chain, make_critic_inputs
-from log_files.observability import time_block, app_log, save_text_artifact
+from app.observability.observability import time_block, app_log, save_text_artifact
 
 def _extract_final_sql(text: str) -> str:
     # Preferred: XML tags

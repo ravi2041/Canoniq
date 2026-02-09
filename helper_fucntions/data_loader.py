@@ -13,9 +13,15 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from helper_fucntions.performance_query import query
-from config import MYSQL_CONFIG_MARKETING
 from sqlalchemy import create_engine
 from urllib.parse import quote_plus
+import streamlit as st
+
+MYSQL_CONFIG_MARKETING = dict(st.secrets["mysql_marketing"])
+MYSQL_CONFIG = dict(st.secrets["mysql_shopify"])
+MYSQL_MEMORY_CONFIG = dict(st.secrets["mysql_memory"])
+BASE_MYSQL_CONFIG = dict(st.secrets["mysql_base"])
+
 
 
 
@@ -24,7 +30,7 @@ def get_engine():
     user = MYSQL_CONFIG_MARKETING['user']
     password = quote_plus(MYSQL_CONFIG_MARKETING['password'])  # encodes @, %, &, etc.
     host = MYSQL_CONFIG_MARKETING['host']
-    port = MYSQL_CONFIG_MARKETING('port', 3306)
+    #port = MYSQL_CONFIG_MARKETING('port', 3306)
     database = MYSQL_CONFIG_MARKETING['database']
 
     connection_str = f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}"

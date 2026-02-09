@@ -1,7 +1,7 @@
 # keypoints_step.py
 from typing import Dict, Any
 from chains import keypoints_chain
-from log_files.observability import time_block, app_log, save_json_artifact
+from app.observability.observability import time_block, app_log, save_json_artifact
 
 def keypoints_step(state: Dict[str, Any]) -> Dict[str, Any]:
 

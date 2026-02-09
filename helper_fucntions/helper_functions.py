@@ -8,10 +8,15 @@ import hashlib
 from langchain_openai import OpenAIEmbeddings
 from decimal import Decimal
 load_dotenv()
-from config import MYSQL_MEMORY_CONFIG
-from config import BASE_MYSQL_CONFIG
 import re
 import tiktoken
+import streamlit as st
+
+MYSQL_CONFIG_MARKETING = dict(st.secrets["mysql_marketing"])
+MYSQL_CONFIG = dict(st.secrets["mysql_shopify"])
+MYSQL_MEMORY_CONFIG = dict(st.secrets["mysql_memory"])
+BASE_MYSQL_CONFIG = dict(st.secrets["mysql_base"])
+
 
 
 # -------------------------

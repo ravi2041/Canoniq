@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from log_files.observability import time_block, app_log, save_text_artifact, save_json_artifact
+from app.observability.observability import time_block, app_log, save_text_artifact, save_json_artifact
 from helper_fucntions.sql_runner import run_sql_on_mysql
 from helper_fucntions.helper_functions import format_result
 

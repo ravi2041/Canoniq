@@ -1,7 +1,13 @@
 # ✅ sql_runner.py
 
 import mysql.connector
-from config import BASE_MYSQL_CONFIG
+import streamlit as st
+
+MYSQL_CONFIG_MARKETING = dict(st.secrets["mysql_marketing"])
+MYSQL_CONFIG = dict(st.secrets["mysql_shopify"])
+MYSQL_MEMORY_CONFIG = dict(st.secrets["mysql_memory"])
+BASE_MYSQL_CONFIG = dict(st.secrets["mysql_base"])
+
 
 def run_sql_on_mysql(sql: str, database:str):
     try:

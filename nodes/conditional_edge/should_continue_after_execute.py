@@ -1,4 +1,4 @@
-from log_files.observability import app_log
+from app.observability.observability import app_log
 
 
 def should_continue_after_execute(state):

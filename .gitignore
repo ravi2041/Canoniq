@@ -225,3 +225,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# Canoniq runtime (logs/artifacts)
+.run/
+**/.run/
+logs/
+artifacts/
+*.log
+*.jsonl

@@ -2,7 +2,7 @@ from langchain_core.messages import HumanMessage
 from mysql_docs_retriever import get_docs_for_error, format_docs_citations
 from chains.get_fix_chain import get_fix_chain
 from helper_fucntions.helper_functions import validate_sql
-from log_files.observability import app_log, save_text_artifact
+from app.observability.observability import app_log, save_text_artifact
 
 
 def fix_sql_step(state):

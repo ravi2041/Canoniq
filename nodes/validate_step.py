@@ -1,6 +1,6 @@
 from typing import Dict, Any
 from helper_fucntions.helper_functions import validate_sql
-from log_files.observability import (
+from app.observability.observability import (
     app_log,
     save_text_artifact,
     time_block,

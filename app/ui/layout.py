@@ -40,7 +40,7 @@ def sidebar_brand() -> None:
             <div style="font-size:1.7rem;">🧠</div>
             <div style="display:flex;flex-direction:column;">
                 <span style="font-weight:600;font-size:1.05rem;">
-                    Clarity AI
+                    CanonIQ
                 </span>
                 <span style="font-size:0.80rem;color:#9ca3af;">
                     Marketing copilot for busy analysts
@@ -69,7 +69,7 @@ def theme_toggle_top_right() -> None:
 
 def app_header(
     section_label: str,
-    product_name: str = "Clarity AI",
+    product_name: str = "CanonIQ",
     company_logo: str | None = None,   # path to image OR None
 ) -> None:
     """

@@ -1,7 +1,7 @@
 # nodes/dq_summary_step.py
 from datetime import datetime, timezone
 from core.state import AgentState
-from log_files.observability import app_log
+from app.observability.observability import app_log
 
 
 def dq_summary_step(state: AgentState) -> dict:

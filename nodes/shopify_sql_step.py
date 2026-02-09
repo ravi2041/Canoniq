@@ -1,6 +1,6 @@
 from core.state import AgentState
 from nodes.generate_sql_step import generate_sql_step
-from log_files.observability import app_log
+from app.observability.observability import app_log
 
 def shopify_sql_step(state: AgentState) -> dict:
     """

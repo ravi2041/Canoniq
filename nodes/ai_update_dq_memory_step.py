@@ -3,7 +3,7 @@ import os, json
 from datetime import datetime
 from core.state import AgentState
 from chains.ai_dq_feedback_chain import ai_dq_feedback_chain
-from log_files.observability import app_log
+from app.observability.observability import app_log
 
 MEMORY_FILE = "dq_pattern_memory.json"
 

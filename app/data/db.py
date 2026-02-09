@@ -1,6 +1,12 @@
 import mysql.connector
 import pandas as pd
-from config import MYSQL_CONFIG_MARKETING
+import streamlit as st
+
+MYSQL_CONFIG_MARKETING = dict(st.secrets["mysql_marketing"])
+MYSQL_CONFIG = dict(st.secrets["mysql_shopify"])
+MYSQL_MEMORY_CONFIG = dict(st.secrets["mysql_memory"])
+BASE_MYSQL_CONFIG = dict(st.secrets["mysql_base"])
+
 
 def get_conn():
     return mysql.connector.connect(**MYSQL_CONFIG_MARKETING)
