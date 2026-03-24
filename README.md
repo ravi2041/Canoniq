@@ -162,35 +162,34 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    A[LangGraph Agent] --> B[Reasoning / Routing Layer]
-    B --> C[SQL Generation Layer]
-    C --> D[Validation / Repair Layer]
-    D --> E[MCP Client Adapter]
+    A[User Question] --> B[LangGraph Agent]
 
-    E --> F1[MCP SQL Tool]
-    E --> F2[MCP Metadata Tool]
-    E --> F3[MCP Governance Tool]
-    E --> F4[MCP Memory Tool]
-    E --> F5[MCP Artifact Tool]
+    B --> C[Reasoning / Planning Layer]
+    C --> D[MCP Client Adapter]
 
-    F1 --> G1[(Marketing DB)]
-    F1 --> G2[(Shopify DB)]
-    F1 --> G3[(GA4 DB)]
-    F1 --> G4[(Combined DB)]
+    D --> M1[MCP Metadata Resources]
+    D --> M2[MCP Governance Resources / Tools]
+    D --> M3[MCP Memory Resources / Tools]
 
-    F2 --> H1[Schema Registry]
-    F2 --> H2[Business Glossary]
-    F2 --> H3[Canonical Naming Rules]
+    M1 --> H1[Schema Registry]
+    M1 --> H2[Business Glossary]
+    M1 --> H3[Canonical Naming Rules]
 
-    F3 --> I1[Anomaly Rules]
-    F3 --> I2[Validation Rules]
-    F3 --> I3[Data Quality Checks]
+    M2 --> I1[Approved Join Policies]
+    M2 --> I2[Metric Definitions]
+    M2 --> I3[Validation / DQ Rules]
 
-    F4 --> J1[Conversation Memory]
-    F4 --> J2[Insight Memory]
+    C --> E[SQL Generation Layer]
+    E --> F[Validation / Repair Layer]
+    F --> D
+    D --> S[MCP SQL Tool]
 
-    F5 --> K1[Logs]
-    F5 --> K2[Artifacts]
-    F5 --> K3[Execution Trace]
+    S --> G1[(Marketing DB)]
+    S --> G2[(Shopify DB)]
+    S --> G3[(GA4 DB)]
+    S --> G4[(Combined DB)]
+
+    S --> R[Query Result]
+    R --> T[Summary / Charts / Artifacts]
 
 ```
